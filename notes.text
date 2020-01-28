@@ -1,0 +1,3 @@
+When you add a new file, run this to make the errors go away:
+
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
