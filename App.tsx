@@ -1,10 +1,10 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import FriendList from "./FriendList";
-import AddFriend from "./AddFriend";
+import FriendList from "./components/FriendList/FriendList";
+import AddFriend from "./components/AddFriend/AddFriend";
 
 const MainNavigator = createStackNavigator({
-    Home: {screen: FriendList},
+    FriendList: {screen: FriendList},
     AddFriend: {screen: AddFriend},
 });
 
