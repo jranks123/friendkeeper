@@ -7,7 +7,8 @@ import { globalStyles } from "../../styles";
 import { addFriendToData } from "../../utils/storage";
 import { getTodaysDateString } from "../../utils/date";
 
-export default class AddFriend extends Component {
+
+export default class FriendInfo extends Component {
 
 
     state = {

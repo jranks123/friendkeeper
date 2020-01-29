@@ -4,8 +4,8 @@ import FriendList from "./components/FriendList/FriendList";
 import AddFriend from "./components/AddFriend/AddFriend";
 
 const MainNavigator = createStackNavigator({
-    FriendList: {screen: FriendList},
-    AddFriend: {screen: AddFriend},
+    TaskList: {screen: FriendList},
+    AddTask: {screen: AddFriend},
 });
 
 const App = createAppContainer(MainNavigator);

@@ -5,6 +5,9 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'flex-start',
         paddingTop: 20,
         paddingLeft: 30
+    },
+    bold: {
+        fontWeight: 'bold',
     }
 });
 

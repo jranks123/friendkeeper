@@ -1,5 +1,5 @@
 type Friend = {
     name: string;
-    dateOfLastRendezvous: Date | null;
-    minimumDaysBetweenRendezvous: number;
+    dateOfLastRendezvous: string | null;
+    minimumDaysBetweenRendezvous: string;
 };
