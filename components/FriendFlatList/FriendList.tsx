@@ -11,6 +11,7 @@ export interface Props {
     names: Friend[];
     refreshState: () => void;
     filterOutIf: (number) => boolean;
+    navigate: (screen: string, refreshFunction: { refresh: () => void } ) => void;
 }
 
 
@@ -41,7 +42,12 @@ export default class FriendList extends React.Component<Props> {
                 renderItem={({item}) => {
 
                     const daysOverdue: number = calculateDaysOverdue(item.dateOfLastRendezvous, parseInt(item.minimumDaysBetweenRendezvous));
-                    const listItemOnPress = () => updateItemLastDone(item.name).then(_ => this.props.refreshState());
+
+                    const listItemOnPress = () => {
+                        this.props.navigate('AddFriend', {
+                            refresh: this.props.refreshState
+                        })
+                    };
 
                     if (this.props.filterOutIf(daysOverdue)) {
                         return null;

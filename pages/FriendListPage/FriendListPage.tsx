@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import {Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Button, ScrollView, Text, View} from 'react-native';
 import { AsyncStorage } from 'react-native';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import {calculateDaysAgo, calculateDaysOverdue} from "../../utils/date";
 import { styles } from './styles';
 import { globalStyles } from '../../styles';
-import {retrieveItem, updateItemLastDone} from '../../utils/storage';
-import {Header} from "react-native-elements";
+import {retrieveItem} from '../../utils/storage';
 import FriendList from "../../components/FriendFlatList/FriendList";
 
 interface State {
@@ -59,6 +55,7 @@ export default class FriendListPage extends Component {
                     names={this.state.names}
                     refreshState={this._refreshState}
                     filterOutIf={(daysOverdue) => daysOverdue <= 0 }
+                    navigate={this.props.navigation.navigate}
                 >
                 </FriendList>
 
@@ -68,6 +65,7 @@ export default class FriendListPage extends Component {
                     names={this.state.names}
                     refreshState={this._refreshState}
                     filterOutIf={(daysOverdue) => daysOverdue > 0 }
+                    navigate={this.props.navigation.navigate}
                 >
                 </FriendList>
                 <View style={styles.buttonContainer}>
