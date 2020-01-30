@@ -19,7 +19,7 @@ export const updateItemLastDone = async (name: string): Promise<void> => {
     try {
         let friendsJson =  await retrieveItem("names");
         if (friendsJson != null) {
-            const friends: [Friend] = JSON.parse(friendsJson);
+            const friends: Friend[] = JSON.parse(friendsJson);
             friends.forEach(friend => {
                 if (friend.name === name) {
                     friend.dateOfLastRendezvous = new Date(Date.parse(getTodaysDateString())).toString()
@@ -50,7 +50,7 @@ export const addFriendToData = async (friend: Friend): Promise<void> => {
     try {
         let friendsJson =  await retrieveItem("names");
         if (friendsJson != null) {
-            const friends: [Friend] = JSON.parse(friendsJson);
+            const friends: Friend[] = JSON.parse(friendsJson);
             friends.push(friend);
             await AsyncStorage.setItem("names", JSON.stringify(friends));
         } else {

@@ -8,6 +8,9 @@ export const globalStyles = StyleSheet.create({
     },
     bold: {
         fontWeight: 'bold',
+    },
+    normal: {
+        fontWeight: 'normal',
     }
 });
 
