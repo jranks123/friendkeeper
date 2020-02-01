@@ -6,12 +6,13 @@ import { globalStyles } from '../../styles';
 import {updateItemLastDone} from '../../utils/storage';
 import { EvilIcons } from '@expo/vector-icons';
 import FriendListItem from "../FriendListItem/FriendListItem";
+import {NavigationParams} from "react-navigation";
 
 export interface Props {
     names: Friend[];
     refreshState: () => void;
     filterOutIf: (number) => boolean;
-    navigate: (screen: string, refreshFunction: { refresh: () => void } ) => void;
+    navigate: (screen: string, props: NavigationParams ) => void;
 }
 
 
@@ -43,9 +44,10 @@ export default class FriendList extends React.Component<Props> {
 
                     const daysOverdue: number = calculateDaysOverdue(item.dateOfLastRendezvous, parseInt(item.minimumDaysBetweenRendezvous));
 
-                    const listItemOnPress = () => {
-                        this.props.navigate('AddFriend', {
-                            refresh: this.props.refreshState
+                    const listItemOnPress = (friend: Friend) => {
+                        this.props.navigate('EditFriend', {
+                            refresh: this.props.refreshState,
+                            friend: friend
                         })
                     };
 
@@ -53,7 +55,7 @@ export default class FriendList extends React.Component<Props> {
                         return null;
                     }
                     return (
-                        <TouchableOpacity style={styles.itemContainer} onPress={listItemOnPress}>
+                        <TouchableOpacity style={styles.itemContainer} onPress={() => listItemOnPress(item)}>
                             <FriendListItem friend={item} daysOverdue={daysOverdue}/>
                         </TouchableOpacity>
                     )

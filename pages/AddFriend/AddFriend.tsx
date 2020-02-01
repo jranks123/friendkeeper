@@ -5,6 +5,8 @@ import {Input} from 'react-native-elements'
 import {styles} from './styles';
 import {globalStyles} from "../../styles";
 import {addFriendToData} from "../../utils/storage";
+import {NavigationParams} from "react-navigation";
+
 
 export default class AddFriend extends Component {
 
@@ -13,11 +15,12 @@ export default class AddFriend extends Component {
         name: "",
         dateOfLastRendezvous: new Date(),
         minimumDaysBetweenRendezvous: "",
-        dateInDatepicker: new Date(),
     };
 
 
     render() {
+
+
         return (
             <ScrollView contentContainerStyle={globalStyles.mainContainer}>
                 <Text style={styles.label}>
@@ -51,7 +54,7 @@ export default class AddFriend extends Component {
                 </Text>
                 <DatePicker
                     style={styles.datePicker}
-                    date={this.state.dateInDatepicker} //initial date from state
+                    date={this.state.dateOfLastRendezvous} //initial date from state
                     mode="date" //The enum of date, datetime and time
                     placeholder="select date"
                     format="YYYY-MM-DD"
@@ -80,7 +83,7 @@ export default class AddFriend extends Component {
                         onPress={() => {
                             const newFriend: Friend = {
                                 name: this.state.name,
-                                dateOfLastRendezvous: this.state.dateInDatepicker.toString(),
+                                dateOfLastRendezvous: this.state.dateOfLastRendezvous.toString(),
                                 minimumDaysBetweenRendezvous: this.state.minimumDaysBetweenRendezvous.toString()
                             };
                             addFriendToData(newFriend).then(() => {

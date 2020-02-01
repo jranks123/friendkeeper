@@ -7,7 +7,7 @@ import FriendInfo from "./pages/FriendInfo/FriendInfo";
 const MainNavigator = createStackNavigator({
     FriendKeeper: {screen: FriendListPage},
     AddFriend: {screen: AddFriend},
-    FriendInfo: {screen: FriendInfo}
+    EditFriend: {screen: AddFriend},
 });
 
 const App = createAppContainer(MainNavigator);

@@ -5,6 +5,7 @@ import { styles } from './styles';
 import { globalStyles } from '../../styles';
 import {retrieveItem} from '../../utils/storage';
 import FriendList from "../../components/FriendFlatList/FriendList";
+import { YellowBox } from 'react-native'
 
 interface State {
     names: Friend[];
@@ -45,6 +46,12 @@ export default class FriendListPage extends Component {
 
 
 
+        YellowBox.ignoreWarnings([
+            'VirtualizedLists should never be nested', // TODO: Remove when fixed
+        ]);
+
+
+
         // @ts-ignore
         // @ts-ignore
         return (
@@ -72,9 +79,7 @@ export default class FriendListPage extends Component {
                     <Button
                         onPress={() => {
                             // @ts-ignore
-                            this.props.navigation.navigate('AddFriend', {
-                                refresh: this._refreshState
-                            })
+                            this.props.navigation.navigate('AddFriend')
                         }}
                         title="Add Friend"
                         color="#841584"
