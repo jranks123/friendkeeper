@@ -21,7 +21,6 @@ export default class FriendListItem extends React.Component<Props> {
             </View>
             <View style={styles.friendInfo}>
                 <Text style={styles.friendName}>{this.props.friend.name}</Text>
-                <Text style={styles.friendName}>{this.props.friend.id}</Text>
                 <Text style={globalStyles.bold}>
                     {Math.abs(this.props.daysOverdue)} days <Text
                     style={globalStyles.normal}>{this.props.daysOverdue > 0 ? "overdue" : "to rendezvous"}</Text>

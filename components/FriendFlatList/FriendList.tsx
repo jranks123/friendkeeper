@@ -2,9 +2,6 @@ import React from 'react';
 import {Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {calculateDaysAgo, calculateDaysOverdue} from "../../utils/date";
 import { styles } from './styles';
-import { globalStyles } from '../../styles';
-import {updateItemLastDone} from '../../utils/storage';
-import { EvilIcons } from '@expo/vector-icons';
 import FriendListItem from "../FriendListItem/FriendListItem";
 import {NavigationParams} from "react-navigation";
 

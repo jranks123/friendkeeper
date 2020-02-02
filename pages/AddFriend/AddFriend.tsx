@@ -106,9 +106,9 @@ export default class AddFriend extends React.Component<Props, State> {
                 <View style={styles.buttonContainer}>
                     <Button
                         onPress={() => {
-                            getNewIdNumber().then(id => {
+                            getNewIdNumber().then(newId => {
                                 const newFriend: Friend = {
-                                    id: id,
+                                    id: this.state.friend.id || newId,
                                     name: this.state.friend.name,
                                     dateOfLastRendezvous: this.state.friend.dateOfLastRendezvous.toString(),
                                     maximumDaysBetweenRendezvous: this.state.friend.maximumDaysBetweenRendezvous.toString()
