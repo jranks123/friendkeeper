@@ -4,24 +4,33 @@ import DatePicker from 'react-native-datepicker';
 import {Input} from 'react-native-elements'
 import {styles} from './styles';
 import {globalStyles} from "../../styles";
-import {addFriendToData} from "../../utils/storage";
-import {NavigationParams} from "react-navigation";
+import {addFriendToData, getNewIdNumber} from "../../utils/storage";
 
 
 export interface Props {
     friend: Friend | null;
 }
 
+export interface State {
+    friend: Friend
+}
+
+export default class AddFriend extends React.Component<Props, State> {
 
 
-export default class AddFriend extends React.Component<Props> {
+    constructor(props) {
+        super(props);
 
-    state = {
-        friend: this.props.navigation.getParam("friend") || {name: "", dateOfLastRendezvous: new Date(), minimumDaysBetweenRendezvous: ""}
-    };
+
+        this.state = { friend: this.props.navigation.getParam("friend") || {name: "", dateOfLastRendezvous: new Date(), maximumDaysBetweenRendezvous: ""} };
+    }
 
 
     render() {
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
 
         return (
             <ScrollView
@@ -44,17 +53,17 @@ export default class AddFriend extends React.Component<Props> {
                     }}
                 />
                 <Text style={styles.label}>
-                    Minimum days between rendezvous:
+                    Maximum days between rendezvous:
                 </Text>
                 <Input
                     containerStyle={styles.input}
-                    value={this.state.friend.minimumDaysBetweenRendezvous}
+                    value={this.state.friend.maximumDaysBetweenRendezvous}
                     onChangeText={(mindays) => {
                         this.setState({
                             ...this.state,
                             friend: {
                                 ...this.state.friend,
-                                minimumDaysBetweenRendezvous: mindays
+                                maximumDaysBetweenRendezvous: mindays
                             }
                         })
 
@@ -97,22 +106,23 @@ export default class AddFriend extends React.Component<Props> {
                 <View style={styles.buttonContainer}>
                     <Button
                         onPress={() => {
-                            const newFriend: Friend = {
-                                name: this.state.friend.name,
-                                dateOfLastRendezvous: this.state.friend.dateOfLastRendezvous.toString(),
-                                minimumDaysBetweenRendezvous: this.state.friend.minimumDaysBetweenRendezvous.toString()
-                            };
-                            addFriendToData(newFriend).then(() => {
-                                // @ts-ignore
-                                this.props.navigation.goBack();
-                            })
-
+                            getNewIdNumber().then(id => {
+                                const newFriend: Friend = {
+                                    id: id,
+                                    name: this.state.friend.name,
+                                    dateOfLastRendezvous: this.state.friend.dateOfLastRendezvous.toString(),
+                                    maximumDaysBetweenRendezvous: this.state.friend.maximumDaysBetweenRendezvous.toString()
+                                };
+                                addFriendToData(newFriend).then(() => {
+                                    // @ts-ignore
+                                    this.props.navigation.goBack();
+                                })
+                            });
                         }}
                         title="Add Friend"
                         color="#841584"
                     />
                 </View>
-
             </ScrollView>
         );
     }

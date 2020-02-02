@@ -21,8 +21,8 @@ export default class FriendList extends React.Component<Props> {
     _getData() {
         return this.props.names.sort((a, b) => {
             const today = new Date();
-            const aDaysOverdue: number = calculateDaysOverdue(a.dateOfLastRendezvous, parseInt(a.minimumDaysBetweenRendezvous));
-            const bDaysOverdue: number = calculateDaysOverdue(b.dateOfLastRendezvous, parseInt(b.minimumDaysBetweenRendezvous));
+            const aDaysOverdue: number = calculateDaysOverdue(a.dateOfLastRendezvous, parseInt(a.maximumDaysBetweenRendezvous));
+            const bDaysOverdue: number = calculateDaysOverdue(b.dateOfLastRendezvous, parseInt(b.maximumDaysBetweenRendezvous));
             if (aDaysOverdue > bDaysOverdue) {
                 return -1;
             }
@@ -42,7 +42,7 @@ export default class FriendList extends React.Component<Props> {
                 data={this._getData()}
                 renderItem={({item}) => {
 
-                    const daysOverdue: number = calculateDaysOverdue(item.dateOfLastRendezvous, parseInt(item.minimumDaysBetweenRendezvous));
+                    const daysOverdue: number = calculateDaysOverdue(item.dateOfLastRendezvous, parseInt(item.maximumDaysBetweenRendezvous));
 
                     const listItemOnPress = (friend: Friend) => {
                         this.props.navigate('EditFriend', {

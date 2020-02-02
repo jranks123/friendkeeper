@@ -30,10 +30,10 @@ export function calculateDaysAgo(startDateString: string): number {
 
 export function calculateDaysOverdue(
     dateOfLastRendezvous: string,
-    minimumDaysBetweenRendezvous: number
+    maximumDaysBetweenRendezvous: number
 ): number {
     if (dateOfLastRendezvous === null) {
         return null
     }
-    return calculateDaysAgo(dateOfLastRendezvous) - minimumDaysBetweenRendezvous;
+    return calculateDaysAgo(dateOfLastRendezvous) - maximumDaysBetweenRendezvous;
 }

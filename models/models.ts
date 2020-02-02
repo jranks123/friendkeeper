@@ -1,5 +1,6 @@
 type Friend = {
+    id: string,
     name: string;
     dateOfLastRendezvous: string | null;
-    minimumDaysBetweenRendezvous: string;
+    maximumDaysBetweenRendezvous: string;
 };
