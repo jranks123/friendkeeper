@@ -8,44 +8,55 @@ import {addFriendToData} from "../../utils/storage";
 import {NavigationParams} from "react-navigation";
 
 
-export default class AddFriend extends Component {
+export interface Props {
+    friend: Friend | null;
+}
 
+
+
+export default class AddFriend extends React.Component<Props> {
 
     state = {
-        name: "",
-        dateOfLastRendezvous: new Date(),
-        minimumDaysBetweenRendezvous: "",
+        friend: this.props.navigation.getParam("friend") || {name: "", dateOfLastRendezvous: new Date(), minimumDaysBetweenRendezvous: ""}
     };
 
 
     render() {
 
-
         return (
-            <ScrollView contentContainerStyle={globalStyles.mainContainer}>
+            <ScrollView
+                keyboardShouldPersistTaps = "always"
+                contentContainerStyle={globalStyles.mainContainer}>
                 <Text style={styles.label}>
                     Name of friend
                 </Text>
                 <Input
                     containerStyle={styles.input}
-
+                    value={this.state.friend.name}
                     onChangeText={(name) => {
                         this.setState({
                             ...this.state,
-                            name: name
+                            friend: {
+                                ...this.state.friend,
+                                name: name
+                            }
                         })
                     }}
                 />
                 <Text style={styles.label}>
-                    Maximum days between rendezvous:
+                    Minimum days between rendezvous:
                 </Text>
                 <Input
                     containerStyle={styles.input}
+                    value={this.state.friend.minimumDaysBetweenRendezvous}
                     onChangeText={(mindays) => {
                         this.setState({
                             ...this.state,
-                            minimumDaysBetweenRendezvous: Number(mindays)
-                        });
+                            friend: {
+                                ...this.state.friend,
+                                minimumDaysBetweenRendezvous: mindays
+                            }
+                        })
 
                     }}
                 />
@@ -54,7 +65,7 @@ export default class AddFriend extends Component {
                 </Text>
                 <DatePicker
                     style={styles.datePicker}
-                    date={this.state.dateOfLastRendezvous} //initial date from state
+                    date={new Date(Date.parse(this.state.friend.dateOfLastRendezvous))} //initial date from state
                     mode="date" //The enum of date, datetime and time
                     placeholder="select date"
                     format="YYYY-MM-DD"
@@ -74,7 +85,12 @@ export default class AddFriend extends Component {
                         }
                     }}
                     onDateChange={(date) => {
-                        this.setState({dateInDatepicker: date})
+
+                        this.setState( {...this.state,
+                            friend: {
+                        ...this.state.friend,
+                                dateOfLastRendezvous: date
+                        }})
                     }
                     }
                 />
@@ -82,9 +98,9 @@ export default class AddFriend extends Component {
                     <Button
                         onPress={() => {
                             const newFriend: Friend = {
-                                name: this.state.name,
-                                dateOfLastRendezvous: this.state.dateOfLastRendezvous.toString(),
-                                minimumDaysBetweenRendezvous: this.state.minimumDaysBetweenRendezvous.toString()
+                                name: this.state.friend.name,
+                                dateOfLastRendezvous: this.state.friend.dateOfLastRendezvous.toString(),
+                                minimumDaysBetweenRendezvous: this.state.friend.minimumDaysBetweenRendezvous.toString()
                             };
                             addFriendToData(newFriend).then(() => {
                                 // @ts-ignore
