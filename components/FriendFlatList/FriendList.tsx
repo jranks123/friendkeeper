@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {calculateDaysAgo, calculateDaysOverdue} from "../../utils/date";
+import { FlatList, TouchableOpacity} from 'react-native';
+import {calculateDaysOverdue} from "../../utils/date";
 import { styles } from './styles';
 import FriendListItem from "../FriendListItem/FriendListItem";
 import {NavigationParams} from "react-navigation";

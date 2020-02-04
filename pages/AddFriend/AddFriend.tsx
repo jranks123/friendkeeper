@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Button, FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {Button, ScrollView, Text, View} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import {Input} from 'react-native-elements'
 import {styles} from './styles';
