@@ -14,3 +14,5 @@ web-report/
 package-lock.json
 # macOS
 .DS_Store
+.idea/*
+yarn.lock
