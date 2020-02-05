@@ -1,27 +1,35 @@
-import {ADD_NEW_ITEM, DELETE_ITEM, EDIT_ITEM, DELETE_ALL_ITEMS, REFRESH_PAGE, Item, ItemsActions} from './types'
+import {
+  ADD_NEW_ITEM,
+  DELETE_ITEM,
+  EDIT_ITEM,
+  DELETE_ALL_ITEMS,
+  REFRESH_PAGE,
+  Item,
+  ItemsActions
+} from "./types";
 
 export function editItem(item: Item): ItemsActions {
-    return {
-        type: EDIT_ITEM,
-        item
-    }
+  return {
+    type: EDIT_ITEM,
+    item
+  };
 }
 export function addNewItem(item: Item): ItemsActions {
-    return {
-        type: ADD_NEW_ITEM,
-        item
-    }
+  return {
+    type: ADD_NEW_ITEM,
+    item
+  };
 }
 export function deleteItem(itemId: string): ItemsActions {
-    return {
-        type: DELETE_ITEM,
-        itemId
-    }
+  return {
+    type: DELETE_ITEM,
+    itemId
+  };
 }
 export function deleteAllItems(): ItemsActions {
-    return { type: DELETE_ALL_ITEMS }
+  return { type: DELETE_ALL_ITEMS };
 }
 
 export function refreshPage(): ItemsActions {
-    return { type: REFRESH_PAGE }
+  return { type: REFRESH_PAGE };
 }

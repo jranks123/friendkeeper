@@ -36,7 +36,6 @@ export interface EditItemFormProps {
 }
 
 const EditItemForm = (props: EditItemFormProps) => {
-        console.log(props.items);
         return (
             <ScrollView
                 keyboardShouldPersistTaps = "always"
@@ -62,8 +61,8 @@ const EditItemForm = (props: EditItemFormProps) => {
                 </Text>
                 <DatePicker
                     style={styles.datePicker}
-                    date={props.dateOfLastAction} //initial date from state
-                    mode="date" //The enum of date, datetime and time
+                    date={props.dateOfLastAction} // initial date from state
+                    mode="date" // The enum of date, datetime and time
                     placeholder="select date"
                     format="YYYY-MM-DD"
                     minDate="1991-01-01"
@@ -94,9 +93,8 @@ const EditItemForm = (props: EditItemFormProps) => {
                                     maximumDaysBetweenActions: props.maximumDaysBetweenActions
                                 };
                                 props.editItem(item);
-                                props.clearEditItemState();
-                                props.navigation.getParam('onBack')();
-                                props.navigation.goBack();
+                                props.navigation.getParam('refreshLandingPageState')();
+                                props.navigation.navigate('FriendKeeper');
                         }}
                         title="Add Friend"
                         color="#841584"
@@ -115,11 +113,11 @@ const mapStateToProps = (state: CombinedState) => ({
     });
 
 
+// tslint:disable-next-line:ban-types
 const mapDispatchToProps = (dispatch: Function) =>  ({
     updateName: (name: string) => dispatch(updateName(name)),
     updateMaximumDaysBetweenActions: (name: string) => dispatch(updateMaximumDaysBetweenActions(name)),
     updateDateOfLastAction: (date: Date) => dispatch(updateDateOfLastAction(date)),
-    clearEditItemState: () => dispatch(clearEditItemStateAction()),
     editItem: (item: Item) => dispatch(editItem(item))
 });
 

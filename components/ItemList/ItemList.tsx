@@ -4,12 +4,22 @@ import {calculateDaysOverdue} from "../../utils/date";
 import { styles } from './styles';
 import ItemListElement from "../ItemListElement/ItemListElement";
 import {Item, ItemsState} from "../../store/items/types";
+import {CombinedState} from "../../store/types";
+import {
+    clearEditItemStateAction, populateEditItemStateFromFromItem,
+    updateDateOfLastAction,
+    updateMaximumDaysBetweenActions,
+    updateName
+} from "../../store/editItems/actions";
+import {editItem} from "../../store/items/actions";
+import {connect} from "react-redux";
 
 export interface ItemListProps {
     items: Item[];
-    filterOutIf: (number) => boolean;
+    filterOutIf: (daysSinceAction: number) => boolean;
     refreshPage: () => void;
-    populateEditItemStateThenGoToEditItemForm: (item) => void
+    navigation: any,
+    populateEditItemStateFromFromItem: (item: Item) => void
 }
 
 const sortItems = (items: Item[]): Item[] => {
@@ -37,16 +47,36 @@ const ItemList = (props: ItemListProps) => {
                 return null;
             }
 
+            const navigateToItemOptionsPage = () => {
+                props.populateEditItemStateFromFromItem(item);
+                props.navigation.navigate('ItemOptionsPage')
+            };
+
             const itemListElementProps = {item, daysOverdue};
             return (
-                <TouchableOpacity style={styles.itemContainer} onPress={() => props.populateEditItemStateThenGoToEditItemForm(item)}>
+                <TouchableOpacity style={styles.itemContainer} onPress={() => navigateToItemOptionsPage()}>
                     <ItemListElement {...itemListElementProps}/>
                 </TouchableOpacity>
             )
         }}
-        //Setting the number of column
+        // Setting the number of column
         numColumns={1}
         keyExtractor={(item, index) => index.toString()}
     />)};
 
-export default ItemList;
+
+const mapStateToProps = (state: CombinedState) => ({
+    items: state.itemsState.items,
+    id: state.editItemState.id,
+    name: state.editItemState.name,
+    maximumDaysBetweenActions: state.editItemState.maximumDaysBetweenActions,
+    dateOfLastAction: state.editItemState.dateOfLastAction
+});
+
+
+const mapDispatchToProps = (dispatch) =>  ({
+    populateEditItemStateFromFromItem: (item: Item) => dispatch(populateEditItemStateFromFromItem(item)),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemList);

@@ -1,42 +1,30 @@
-// import {createAppContainer} from 'react-navigation';
-// import {createStackNavigator} from 'react-navigation-stack';
-// import FriendListPage from "./pages/FriendListPage/FriendListPage";
-// import AddFriend from "./pages/AddFriend/AddFriend";
-// import { Provider } from 'react-redux';
-//
-// const MainNavigator = createStackNavigator({
-//     FriendKeeper: {screen: FriendListPage},
-//     AddFriend: {screen: AddFriend},
-//     EditFriend: {screen: AddFriend},
-// });
-//
-//
-// const App = createAppContainer(MainNavigator);
-//
-// export default App;
-
-
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { Provider, connect } from 'react-redux';
-import thunkMiddleware from "redux-thunk";;
+import { createStore, applyMiddleware } from 'redux';
+import { Provider} from 'react-redux';
+import thunkMiddleware from "redux-thunk";
+import { AsyncStorage } from 'react-native';
+import { persistStore, persistCombineReducers } from 'redux-persist';
 import {composeWithDevTools} from "redux-devtools-extension";
-import AddItem from "./pages/AddItem/EditItemForm";
 import {itemsReducer} from "./store/items/reducers";
 import {createStackNavigator} from "react-navigation-stack";
 import {editItemReducer} from "./store/editItems/reducers";
 import {createAppContainer} from "react-navigation";
 
 import ItemListPage from "./pages/ItemListPage/ItemListPage";
-import EditItemForm from "./pages/AddItem/EditItemForm";
+import EditItemForm from "./pages/EditItemForm/EditItemForm";
+import ItemOptionsPage from "./pages/ItemOptionsPage/ItemOptionsPage";
 
 const middlewares = [thunkMiddleware];
 const middleWareEnhancer = applyMiddleware(...middlewares);
 
+const config = {
+    key: 'primary',
+    storage: AsyncStorage,
+};
 
 export const Navigator =   createStackNavigator({
     FriendKeeper: ItemListPage,
+    ItemOptionsPage,
     AddFriend:  EditItemForm,
     EditFriend:  EditItemForm,
 });
@@ -44,9 +32,16 @@ export const Navigator =   createStackNavigator({
 
 const AppContainer = createAppContainer(Navigator);
 
-const rootReducer = combineReducers({editItemState: editItemReducer, itemsState: itemsReducer})
+const rootReducer = persistCombineReducers(config, {editItemState: editItemReducer, itemsState: itemsReducer});
 
 const store = createStore(rootReducer, composeWithDevTools(middleWareEnhancer));
+persistStore(
+    store,
+    null,
+    () => {
+        store.getState() // if you want to get restoredState
+    }
+)
 
 
 export default class App extends Component {

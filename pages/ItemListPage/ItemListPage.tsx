@@ -9,6 +9,7 @@ import {deleteAllItems, refreshPage} from '../../store/items/actions';
 
 import {Item} from "../../store/items/types";
 import {CombinedState} from "../../store/types";
+import {clearEditItemStateAction} from "../../store/editItems/actions";
 import {populateEditItemStateFromFromItem} from "../../store/editItems/actions";
 
 YellowBox.ignoreWarnings([
@@ -19,7 +20,8 @@ interface Props {
     items: Item[],
     deleteAllItems: () => void,
     refreshPage: () => void,
-    populateEditItemFromFromItem: (item: Item) => void,
+    populateEditItemStateFromFromItem: (item: Item) => void,
+    clearEditItemState: () => void,
     navigation: any,
     date: Date
 }
@@ -28,28 +30,13 @@ interface Props {
 
 const ItemListPage = (props: Props) => {
 
-    const navigateToEditItemForm = (screenName: string) => props.navigation.navigate(
-        screenName,
-        {
-            onBack: () => props.refreshPage()//function to refresh screen,
-        }
-    );
-
-    const navigateToAddItemForm =  () => {
-        // @ts-ignore
-        navigateToEditItemForm('AddFriend')
-    };
-
-    const populateEditItemStateThenGoToEditItemForm = (item: Item) => {
-        props.populateEditItemFromFromItem(item);
-        navigateToEditItemForm('EditFriend');
-    };
 
     const overdueItemsListProps: ItemListProps = {
         items: props.items,
         filterOutIf: (daysOverdue: number) => daysOverdue <= 0,
-        populateEditItemStateThenGoToEditItemForm,
-        refreshPage: props.refreshPage
+        refreshPage: props.refreshPage,
+        populateEditItemStateFromFromItem: props.populateEditItemStateFromFromItem,
+        navigation: props.navigation
     };
 
     const upcomingItemsListProps: ItemListProps = {
@@ -74,8 +61,15 @@ const ItemListPage = (props: Props) => {
             </ItemsList>
             <View style={styles.buttonContainer}>
                 <Button
-                    onPress={() => {navigateToAddItemForm()}}
-                    title="Add Friend"
+                    onPress={() => {
+                        props.clearEditItemState();
+                        props.navigation.navigate(
+                            'AddFriend',
+                            {
+                                refreshLandingPageState: () => props.refreshPage()
+                            })
+                    }}
+                    title="Add Friends"
                     color="#841584"
                 />
             </View>
@@ -97,10 +91,12 @@ const mapStateToProps = ( state: CombinedState ) => ({
     date: state.itemsState.lastRefreshDate
 });
 
-const mapDispatchToProps = (dispatch: Function) =>  ({
+const mapDispatchToProps = (dispatch) =>  ({
     deleteAllItems: () => dispatch(deleteAllItems()),
-    populateEditItemFromFromItem: (item: Item) => dispatch(populateEditItemStateFromFromItem(item)),
-    refreshPage: () => dispatch(refreshPage())
+    refreshPage: () => dispatch(refreshPage()),
+    clearEditItemState: () => dispatch(clearEditItemStateAction()),
+    populateEditItemStateFromFromItem: (item) => dispatch(populateEditItemStateFromFromItem(item))
+
 });
 
 
