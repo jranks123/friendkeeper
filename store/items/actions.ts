@@ -1,4 +1,4 @@
-import {ADD_NEW_ITEM, DELETE_ITEM, EDIT_ITEM, DELETE_ALL_ITEMS, Item, ItemsActions} from './types'
+import {ADD_NEW_ITEM, DELETE_ITEM, EDIT_ITEM, DELETE_ALL_ITEMS, REFRESH_PAGE, Item, ItemsActions} from './types'
 
 export function editItem(item: Item): ItemsActions {
     return {
@@ -20,4 +20,8 @@ export function deleteItem(itemId: string): ItemsActions {
 }
 export function deleteAllItems(): ItemsActions {
     return { type: DELETE_ALL_ITEMS }
+}
+
+export function refreshPage(): ItemsActions {
+    return { type: REFRESH_PAGE }
 }

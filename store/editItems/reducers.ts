@@ -7,7 +7,7 @@ import {
 } from "./types";
 
 const initialState: EditItemState = {
-    name: "",
+    name: "g",
     dateOfLastAction: new Date(),
     maximumDaysBetweenActions: ""
 };

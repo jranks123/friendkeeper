@@ -5,50 +5,51 @@ import { globalStyles } from '../../styles';
 import ItemsList from "../../components/FriendFlatList/ItemList";
 import { YellowBox } from 'react-native'
 import { connect } from 'react-redux';
-import { deleteAllItems } from '../../store/items/actions';
+import {deleteAllItems, refreshPage} from '../../store/items/actions';
 import {Item, ItemsState} from "../../store/items/types";
+import {CombinedState} from "../../store/types";
 
 YellowBox.ignoreWarnings([
     'VirtualizedLists should never be nested', // TODO: Remove when fixed
 ]);
 
-export interface Props {
+interface Props {
     items: Item[],
     deleteAllItems: () => void,
-    navigation: any
+    refreshPage: () => void,
+    navigation: any,
+    date: Date
 }
 
 
 const ItemListPage = (props: Props) => {
-
-    console.log("hi");
-    console.log(props);
-
     // @ts-ignore
     return (
         <ScrollView contentContainerStyle={globalStyles.mainContainer}>
             <Text style={styles.title}
             > Overdue: </Text>
-            {/*<ItemsList*/}
-            {/*    items={props.items}*/}
-            {/*    filterOutIf={(daysOverdue) => daysOverdue <= 0 }*/}
-            {/*    navigate={props.navigation.navigate}*/}
-            {/*>*/}
-            {/*</ItemsList>*/}
-
+            <ItemsList
+                filterOutIf={(daysOverdue) => daysOverdue <= 0 }
+                navigate={props.navigation.navigate}
+            >
+            </ItemsList>
             <Text style={styles.gap}> </Text>
             <Text style={styles.title}> Coming up: </Text>
-            {/*<ItemsList*/}
-            {/*    items={props.items}*/}
-            {/*    filterOutIf={(daysOverdue) => daysOverdue > 0 }*/}
-            {/*    navigate={props.navigation.navigate}*/}
-            {/*>*/}
-            {/*</ItemsList>*/}
+            <ItemsList
+                filterOutIf={(daysOverdue) => daysOverdue > 0 }
+                navigate={props.navigation.navigate}
+            >
+            </ItemsList>
             <View style={styles.buttonContainer}>
                 <Button
                     onPress={() => {
                         // @ts-ignore
-                        props.navigation.navigate('AddFriend')
+                        props.navigation.navigate(
+                            'AddFriend',
+                            {
+                                onBack: () => props.refreshPage()//function to refresh screen,
+                            }
+                        )
                     }}
                     title="Add Friend"
                     color="#841584"
@@ -56,7 +57,7 @@ const ItemListPage = (props: Props) => {
             </View>
             <View style={styles.buttonContainer}>
                 <Button
-                    onPress={deleteAllItems}
+                    onPress={props.deleteAllItems}
                     title="Clear all friends"
                     color="#841584"
                 />
@@ -67,12 +68,14 @@ const ItemListPage = (props: Props) => {
 };
 
 
-const mapStateToProps = ( state: ItemsState ) => ({
-    items: state.items
+const mapStateToProps = ( state: CombinedState ) => ({
+    items: state.itemsState.items,
+    date: state.itemsState.lastRefreshDate
 });
 
 const mapDispatchToProps = (dispatch: Function) =>  ({
-    deleteAllItems: () => dispatch(deleteAllItems())
+    deleteAllItems: () => dispatch(deleteAllItems()),
+    refreshPage: () => dispatch(refreshPage())
 });
 
 

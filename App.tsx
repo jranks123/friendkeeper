@@ -27,21 +27,23 @@ import {itemsReducer} from "./store/items/reducers";
 import {createStackNavigator} from "react-navigation-stack";
 import {editItemReducer} from "./store/editItems/reducers";
 import {createAppContainer} from "react-navigation";
-import ItemListPage from "./pages/ItemListPage/ItemListpage";
+
+import ItemListPage from "./pages/ItemListPage/ItemListPage";
 
 const middlewares = [thunkMiddleware];
 const middleWareEnhancer = applyMiddleware(...middlewares);
 
 
-const AppContainer = createAppContainer(
-    createStackNavigator({
-        FriendKeeper: ItemListPage,
-        AddFriend:  AddItem,
-        EditFriend:  AddItem,
-    })
-);
+export const Navigator =   createStackNavigator({
+    FriendKeeper: ItemListPage,
+    AddFriend:  AddItem,
+    EditFriend:  AddItem,
+});
 
-const rootReducer = combineReducers({editItem: editItemReducer, items: itemsReducer})
+
+const AppContainer = createAppContainer(Navigator);
+
+const rootReducer = combineReducers({editItemState: editItemReducer, itemsState: itemsReducer})
 
 const store = createStore(rootReducer, composeWithDevTools(middleWareEnhancer));
 
