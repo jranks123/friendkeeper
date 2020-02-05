@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, ScrollView, Text, View } from 'react-native';
+import { Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { YellowBox } from 'react-native'
 import { connect } from 'react-redux';
-import { globalStyles } from '../../app/styles';
 import ItemsList, { ItemListProps } from "../../components/ItemList/ItemList";
-import { deleteAllItems, refreshPage } from '../../store/items/actions';
+import { deleteAllItems, refreshState } from '../../store/items/actions';
+import { globalStyles } from '../../styles';
 import { styles } from './styles';
 
 import { clearEditItemStateAction } from "../../store/editItems/actions";
@@ -19,7 +19,7 @@ YellowBox.ignoreWarnings([
 interface Props {
     items: Item[],
     deleteAllItems: () => void,
-    refreshPage: () => void,
+    refreshState: () => void,
     populateEditItemStateFromFromItem: (item: Item) => void,
     clearEditItemState: () => void,
     navigation: any,
@@ -34,7 +34,7 @@ const ItemListPage = (props: Props) => {
     const overdueItemsListProps: ItemListProps = {
         items: props.items,
         filterOutIf: (daysOverdue: number) => daysOverdue <= 0,
-        refreshPage: props.refreshPage,
+        refreshState: props.refreshState,
         populateEditItemStateFromFromItem: props.populateEditItemStateFromFromItem,
         navigation: props.navigation
     };
@@ -59,26 +59,26 @@ const ItemListPage = (props: Props) => {
                 {...upcomingItemsListProps}>
             >
             </ItemsList>
-            <View style={styles.buttonContainer}>
-                <Button
+            <View style={globalStyles.buttonContainer}>
+                <TouchableOpacity
+                    style={globalStyles.button}
                     onPress={() => {
                         props.clearEditItemState();
                         props.navigation.navigate(
                             'AddFriend',
                             {
-                                refreshLandingPageState: () => props.refreshPage()
+                                refreshLandingPageState: () => props.refreshState()
                             })
                     }}
-                    title="Add Friends"
-                    color="#841584"
-                />
-            </View>
-            <View style={styles.buttonContainer}>
-                <Button
+                >
+                    <Text style={globalStyles.buttonText}> Add Friend</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={globalStyles.button}
                     onPress={props.deleteAllItems}
-                    title="Clear all friends"
-                    color="#841584"
-                />
+                >
+                    <Text style={globalStyles.buttonText}>Clear all friends</Text>
+                </TouchableOpacity>
             </View>
 
         </ScrollView>
@@ -93,7 +93,7 @@ const mapStateToProps = ( state: CombinedState ) => ({
 
 const mapDispatchToProps = (dispatch) =>  ({
     deleteAllItems: () => dispatch(deleteAllItems()),
-    refreshPage: () => dispatch(refreshPage()),
+    refreshState: () => dispatch(refreshState()),
     clearEditItemState: () => dispatch(clearEditItemStateAction()),
     populateEditItemStateFromFromItem: (item) => dispatch(populateEditItemStateFromFromItem(item))
 

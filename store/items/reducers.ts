@@ -6,7 +6,7 @@ import {
   Item,
   ItemsActions,
   ItemsState,
-  REFRESH_PAGE
+  REFRESH_STATE
 } from "./types";
 
 const initialState: ItemsState = {
@@ -44,7 +44,7 @@ export function itemsReducer(
         ...state,
         items: state.items.filter(item => item.id !== action.itemId)
       };
-    case REFRESH_PAGE:
+    case REFRESH_STATE:
       return {
         ...state,
         lastRefreshDate: new Date()

@@ -6,7 +6,7 @@ export interface EditItemState {
   name: string;
   dateOfLastAction: Date | null;
   maximumDaysBetweenActions: string;
-  id: string | null;
+  id: number | null;
 }
 
 // Describing the different ACTION NAMES available

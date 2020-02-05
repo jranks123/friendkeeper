@@ -13,7 +13,7 @@ import { styles } from './styles';
 export interface ItemListProps {
     items: Item[];
     filterOutIf: (daysSinceAction: number) => boolean;
-    refreshPage: () => void;
+    refreshState: () => void;
     navigation: any,
     populateEditItemStateFromFromItem: (item: Item) => void
 }

@@ -7,12 +7,12 @@ import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from "redux-devtools-extension";
 import { persistCombineReducers, persistStore } from 'redux-persist';
 import thunkMiddleware from "redux-thunk";
-import { editItemReducer } from "../store/editItems/reducers";
-import { itemsReducer } from "../store/items/reducers";
+import { editItemReducer } from "./store/editItems/reducers";
+import { itemsReducer } from "./store/items/reducers";
 
-import EditItemForm from "../pages/EditItemForm/EditItemForm";
-import ItemListPage from "../pages/ItemListPage/ItemListPage";
-import ItemOptionsPage from "../pages/ItemOptionsPage/ItemOptionsPage";
+import EditItemForm from "./pages/EditItemForm/EditItemForm";
+import ItemListPage from "./pages/ItemListPage/ItemListPage";
+import ItemOptionsPage from "./pages/ItemOptionsPage/ItemOptionsPage";
 
 const middlewares = [thunkMiddleware];
 const middleWareEnhancer = applyMiddleware(...middlewares);

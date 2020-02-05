@@ -14,10 +14,5 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     marginTop: 0
-  },
-  buttonContainer: {
-    margin: 20,
-    flexDirection: "row",
-    justifyContent: "flex-start"
   }
 });

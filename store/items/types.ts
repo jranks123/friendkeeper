@@ -1,9 +1,9 @@
 // Describing the shape of the friend slice of state
 
 export interface Item {
-  id: string | null;
+  id: number | null;
   name: string;
-  dateOfLastAction: string | null;
+  dateOfLastAction: Date | null;
   maximumDaysBetweenActions: string;
 }
 
@@ -18,7 +18,7 @@ export const ADD_NEW_ITEM = "ADD_NEW_ITEM";
 export const EDIT_ITEM = "EDIT_ITEM";
 export const DELETE_ITEM = "DELETE_ITEM";
 export const DELETE_ALL_ITEMS = "DELETE_ALL_ITEMS";
-export const REFRESH_PAGE = "REFRESH_PAGE";
+export const REFRESH_STATE = "REFRESH_STATE";
 
 interface AddNewItemAction {
   type: typeof ADD_NEW_ITEM;
@@ -32,15 +32,15 @@ interface EditItemAction {
 
 interface DeleteItemAction {
   type: typeof DELETE_ITEM;
-  itemId: string;
+  itemId: number;
 }
 
 interface DeleteAllItemsAction {
   type: typeof DELETE_ALL_ITEMS;
 }
 
-interface RefreshPageAction {
-  type: typeof REFRESH_PAGE;
+interface RefreshStateAction {
+  type: typeof REFRESH_STATE;
 }
 
 export type ItemsActions =
@@ -48,4 +48,4 @@ export type ItemsActions =
   | EditItemAction
   | DeleteItemAction
   | DeleteAllItemsAction
-  | RefreshPageAction;
+  | RefreshStateAction;

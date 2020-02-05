@@ -27,8 +27,9 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     margin: 20,
-    flexDirection: "row",
-    justifyContent: "flex-start"
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   },
   iconContainer: {
     justifyContent: "center",

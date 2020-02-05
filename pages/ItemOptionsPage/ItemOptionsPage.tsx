@@ -1,29 +1,31 @@
 import React from 'react';
-import { Button, View } from 'react-native';
+import { Button, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from "react-redux";
 import {
-    clearEditItemStateAction,
+    clearEditItemStateAction, populateEditItemStateFromFromItem,
     updateDateOfLastAction,
     updateMaximumDaysBetweenActions,
     updateName
 } from "../../store/editItems/actions";
-import { editItem, refreshPage } from "../../store/items/actions";
+import { editItem, refreshState } from "../../store/items/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
 import { styles } from './styles';
+import { globalStyles } from "../../styles";
 
 
 interface ItemOptionsPageProps {
     navigateToAddItemForm: () => void,
     items: Item[];
-    id: string | null;
+    id: number | null;
     name: string;
     dateOfLastAction: Date;
     maximumDaysBetweenActions: string;
     updateName: (name: string) => void;
     updateMaximumDaysBetweenActions: (days: string) => void;
     updateDateOfLastAction: (date: Date) => void;
-    refreshPage: () => void;
+    populateEditItemStateFromFromItem: (item: Item) => void;
+    refreshState: () => void;
     clearEditItemState: () => void,
     editItem: (item: Item) => void
     navigation: any
@@ -39,24 +41,27 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
         };
 
         return (
-
-                <View style={styles.buttonContainer}>
-                    <Button
+                <View style={globalStyles.buttonContainer}>
+                    <TouchableOpacity
                         onPress={() => {
-                            props.editItem({...itemFromState, dateOfLastAction: new Date().toString()});
-                            props.refreshPage();
+                            props.editItem({...itemFromState, dateOfLastAction: new Date()});
+                            props.refreshState();
                             props.navigation.goBack();
                         }}
-                        title="I saw them today"
-                        color="#841584"
-                    />
-                    <Button
+                        style={globalStyles.button}
+                    >
+                        <Text style={globalStyles.buttonText}> I saw them today </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
                         onPress={() => {
+                            props.populateEditItemStateFromFromItem({...itemFromState})
                             props.navigation.navigate('EditFriend')}
                         }
-                        title="Edit friend manually"
-                        color="#841584"
-                    />
+                        style={globalStyles.button}
+                    >
+                        <Text style={globalStyles.buttonText}> Edit friend manually </Text>
+                    </TouchableOpacity>
                 </View>
         )
     };
@@ -76,7 +81,8 @@ const mapDispatchToProps = (dispatch) =>  ({
     updateDateOfLastAction: (date: Date) => dispatch(updateDateOfLastAction(date)),
     clearEditItemState: () => dispatch(clearEditItemStateAction()),
     editItem: (item: Item) => dispatch(editItem(item)),
-    refreshPage: () => dispatch(refreshPage()),
+    refreshState: () => dispatch(refreshState()),
+    populateEditItemStateFromFromItem: (item: Item) => dispatch(populateEditItemStateFromFromItem(item)),
 });
 
 
