@@ -1,20 +1,16 @@
 import React from 'react';
-import {Button, ScrollView, Text, View} from 'react-native';
-import DatePicker from 'react-native-datepicker';
-import {Input} from 'react-native-elements'
-import {styles} from './styles';
-import {globalStyles} from "../../styles";
-import {getNewIdNumber} from "../../utils/storage";
-import {Item, ItemsState} from "../../store/items/types";
-import {connect} from "react-redux";
+import { Button, View } from 'react-native';
+import { connect } from "react-redux";
 import {
-    clearEditItemStateAction, populateEditItemStateFromFromItem,
+    clearEditItemStateAction,
     updateDateOfLastAction,
     updateMaximumDaysBetweenActions,
     updateName
 } from "../../store/editItems/actions";
-import {editItem, refreshPage} from "../../store/items/actions";
-import {CombinedState} from "../../store/types";
+import { editItem, refreshPage } from "../../store/items/actions";
+import { Item } from "../../store/items/types";
+import { CombinedState } from "../../store/types";
+import { styles } from './styles';
 
 
 interface ItemOptionsPageProps {

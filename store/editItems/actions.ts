@@ -1,3 +1,4 @@
+import { Item } from "../items/types";
 import {
   CLEAR_EDIT_ITEM_STATE,
   EditItemActions,
@@ -6,7 +7,6 @@ import {
   UPDATE_MAXIMUM_DAYS_BETWEEN_ACTIONS,
   UPDATE_NAME
 } from "./types";
-import { Item } from "../items/types";
 
 export function updateName(name: string): EditItemActions {
   return {

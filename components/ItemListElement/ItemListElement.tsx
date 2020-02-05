@@ -1,10 +1,10 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { Text, View } from 'react-native';
 
-import { styles } from './styles';
-import { globalStyles } from '../../styles';
 import { EvilIcons } from '@expo/vector-icons';
-import {Item} from "../../store/items/types";
+import { globalStyles } from '../../app/styles';
+import { Item } from "../../store/items/types";
+import { styles } from './styles';
 
 export interface Props {
     item: Item

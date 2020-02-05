@@ -1,18 +1,14 @@
 import React from 'react';
-import { FlatList, TouchableOpacity} from 'react-native';
-import {calculateDaysOverdue} from "../../utils/date";
-import { styles } from './styles';
-import ItemListElement from "../ItemListElement/ItemListElement";
-import {Item, ItemsState} from "../../store/items/types";
-import {CombinedState} from "../../store/types";
+import { FlatList, TouchableOpacity } from 'react-native';
+import { connect } from "react-redux";
 import {
-    clearEditItemStateAction, populateEditItemStateFromFromItem,
-    updateDateOfLastAction,
-    updateMaximumDaysBetweenActions,
-    updateName
+    populateEditItemStateFromFromItem
 } from "../../store/editItems/actions";
-import {editItem} from "../../store/items/actions";
-import {connect} from "react-redux";
+import { Item } from "../../store/items/types";
+import { CombinedState } from "../../store/types";
+import { calculateDaysOverdue } from "../../utils/date";
+import ItemListElement from "../ItemListElement/ItemListElement";
+import { styles } from './styles';
 
 export interface ItemListProps {
     items: Item[];

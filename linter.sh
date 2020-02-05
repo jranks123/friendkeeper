@@ -1,2 +1,2 @@
 #!/bin/bash
-tslint --project ./ 
+tslint --fix --project ./ 

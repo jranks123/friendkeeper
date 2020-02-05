@@ -1,25 +1,19 @@
 import React from 'react';
-import {Button, ScrollView, Text, View} from 'react-native';
+import { Button, ScrollView, Text, View } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import {Input} from 'react-native-elements'
-import {styles} from './styles';
-import {globalStyles} from "../../styles";
-import {getNewIdNumber} from "../../utils/storage";
-import {Item, ItemsState} from "../../store/items/types";
-import {connect} from "react-redux";
+import { Input } from 'react-native-elements'
+import { connect } from "react-redux";
+import { globalStyles } from "../../app/styles";
 import {
-    clearEditItemStateAction,
     updateDateOfLastAction,
     updateMaximumDaysBetweenActions,
     updateName
 } from "../../store/editItems/actions";
-import {editItem} from "../../store/items/actions";
-import {CombinedState} from "../../store/types";
-
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+import { editItem } from "../../store/items/actions";
+import { Item } from "../../store/items/types";
+import { CombinedState } from "../../store/types";
+import { getNewIdNumber } from "../../utils/storage";
+import { styles } from './styles';
 
 export interface EditItemFormProps {
     items: Item[];

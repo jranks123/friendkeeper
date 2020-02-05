@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider} from 'react-redux';
-import thunkMiddleware from "redux-thunk";
 import { AsyncStorage } from 'react-native';
-import { persistStore, persistCombineReducers } from 'redux-persist';
-import {composeWithDevTools} from "redux-devtools-extension";
-import {itemsReducer} from "./store/items/reducers";
-import {createStackNavigator} from "react-navigation-stack";
-import {editItemReducer} from "./store/editItems/reducers";
-import {createAppContainer} from "react-navigation";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from "redux-devtools-extension";
+import { persistCombineReducers, persistStore } from 'redux-persist';
+import thunkMiddleware from "redux-thunk";
+import { editItemReducer } from "../store/editItems/reducers";
+import { itemsReducer } from "../store/items/reducers";
 
-import ItemListPage from "./pages/ItemListPage/ItemListPage";
-import EditItemForm from "./pages/EditItemForm/EditItemForm";
-import ItemOptionsPage from "./pages/ItemOptionsPage/ItemOptionsPage";
+import EditItemForm from "../pages/EditItemForm/EditItemForm";
+import ItemListPage from "../pages/ItemListPage/ItemListPage";
+import ItemOptionsPage from "../pages/ItemOptionsPage/ItemOptionsPage";
 
 const middlewares = [thunkMiddleware];
 const middleWareEnhancer = applyMiddleware(...middlewares);

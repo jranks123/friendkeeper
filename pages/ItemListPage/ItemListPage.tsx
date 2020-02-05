@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import {Button, ScrollView, Text, View} from 'react-native';
-import { styles } from './styles';
-import { globalStyles } from '../../styles';
-import ItemsList, {ItemListProps} from "../../components/ItemList/ItemList";
+import React from 'react';
+import { Button, ScrollView, Text, View } from 'react-native';
 import { YellowBox } from 'react-native'
 import { connect } from 'react-redux';
-import {deleteAllItems, refreshPage} from '../../store/items/actions';
+import { globalStyles } from '../../app/styles';
+import ItemsList, { ItemListProps } from "../../components/ItemList/ItemList";
+import { deleteAllItems, refreshPage } from '../../store/items/actions';
+import { styles } from './styles';
 
-import {Item} from "../../store/items/types";
-import {CombinedState} from "../../store/types";
-import {clearEditItemStateAction} from "../../store/editItems/actions";
-import {populateEditItemStateFromFromItem} from "../../store/editItems/actions";
+import { clearEditItemStateAction } from "../../store/editItems/actions";
+import { populateEditItemStateFromFromItem } from "../../store/editItems/actions";
+import { Item } from "../../store/items/types";
+import { CombinedState } from "../../store/types";
 
 YellowBox.ignoreWarnings([
     'VirtualizedLists should never be nested', // TODO: Remove when fixed

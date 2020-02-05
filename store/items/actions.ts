@@ -1,11 +1,11 @@
 import {
   ADD_NEW_ITEM,
+  DELETE_ALL_ITEMS,
   DELETE_ITEM,
   EDIT_ITEM,
-  DELETE_ALL_ITEMS,
-  REFRESH_PAGE,
   Item,
-  ItemsActions
+  ItemsActions,
+  REFRESH_PAGE
 } from "./types";
 
 export function editItem(item: Item): ItemsActions {
