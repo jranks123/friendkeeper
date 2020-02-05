@@ -4,22 +4,22 @@ import {calculateDaysOverdue} from "../../utils/date";
 import { styles } from './styles';
 import FriendListItem from "../FriendListItem/FriendListItem";
 import {NavigationParams} from "react-navigation";
+import {Item} from "../../store/items/types";
 
 export interface Props {
-    names: Friend[];
-    refreshState: () => void;
+    items: Item[];
     filterOutIf: (number) => boolean;
     navigate: (screen: string, props: NavigationParams ) => void;
 }
 
 
-export default class FriendList extends React.Component<Props> {
+export default class ItemList extends React.Component<Props> {
 
     _getData() {
-        return this.props.names.sort((a, b) => {
+        return this.props.items.sort((a, b) => {
             const today = new Date();
-            const aDaysOverdue: number = calculateDaysOverdue(a.dateOfLastRendezvous, parseInt(a.maximumDaysBetweenRendezvous));
-            const bDaysOverdue: number = calculateDaysOverdue(b.dateOfLastRendezvous, parseInt(b.maximumDaysBetweenRendezvous));
+            const aDaysOverdue: number = calculateDaysOverdue(a.dateOfLastAction, parseInt(a.maximumDaysBetweenActions));
+            const bDaysOverdue: number = calculateDaysOverdue(b.dateOfLastAction, parseInt(b.maximumDaysBetweenActions));
             if (aDaysOverdue > bDaysOverdue) {
                 return -1;
             }
@@ -39,13 +39,10 @@ export default class FriendList extends React.Component<Props> {
                 data={this._getData()}
                 renderItem={({item}) => {
 
-                    const daysOverdue: number = calculateDaysOverdue(item.dateOfLastRendezvous, parseInt(item.maximumDaysBetweenRendezvous));
+                    const daysOverdue: number = calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions));
 
-                    const listItemOnPress = (friend: Friend) => {
-                        this.props.navigate('EditFriend', {
-                            refresh: this.props.refreshState,
-                            friend: friend
-                        })
+                    const listItemOnPress = (item: Item) => {
+                        this.props.navigate('EditFriend', {item: item})
                     };
 
                     if (this.props.filterOutIf(daysOverdue)) {

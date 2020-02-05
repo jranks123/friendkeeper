@@ -4,34 +4,22 @@ import DatePicker from 'react-native-datepicker';
 import {Input} from 'react-native-elements'
 import {styles} from './styles';
 import {globalStyles} from "../../styles";
-import {addFriendToData, getNewIdNumber} from "../../utils/storage";
+import {getNewIdNumber} from "../../utils/storage";
+import {Item, ItemsState} from "../../store/items/types";
+import {connect} from "react-redux";
+import {NavigationParams} from "react-navigation";
 
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
 
 export interface Props {
-    friend: Friend | null;
+    items: Item[];
+    item: Item;
 }
 
-export interface State {
-    friend: Friend
-}
-
-export default class AddFriend extends React.Component<Props, State> {
-
-
-    constructor(props) {
-        super(props);
-
-
-        this.state = { friend: this.props.navigation.getParam("friend") || {name: "", dateOfLastRendezvous: new Date(), maximumDaysBetweenRendezvous: ""} };
-    }
-
-
-    render() {
-
-        function getRandomInt(max) {
-            return Math.floor(Math.random() * Math.floor(max));
-        }
-
+const AddItem = () => {
         return (
             <ScrollView
                 keyboardShouldPersistTaps = "always"
@@ -106,18 +94,19 @@ export default class AddFriend extends React.Component<Props, State> {
                 <View style={styles.buttonContainer}>
                     <Button
                         onPress={() => {
-                            getNewIdNumber().then(newId => {
-                                const newFriend: Friend = {
-                                    id: this.state.friend.id || newId,
+                                const item: Item = {
+                                    id: getNewIdNumber(this.state.items),
                                     name: this.state.friend.name,
-                                    dateOfLastRendezvous: this.state.friend.dateOfLastRendezvous.toString(),
-                                    maximumDaysBetweenRendezvous: this.state.friend.maximumDaysBetweenRendezvous.toString()
+                                    dateOfLastAction: this.state.friend.dateOfLastRendezvous.toString(),
+                                    maximumDaysBetweenActions: this.state.friend.maximumDaysBetweenRendezvous.toString()
                                 };
-                                addFriendToData(newFriend).then(() => {
-                                    // @ts-ignore
-                                    this.props.navigation.goBack();
-                                })
-                            });
+                                console.log(item)
+
+                                // call dispatch function
+                                // addFriendToData(newFriend).then(() => {
+                                //     // @ts-ignore
+                                //     this.props.navigation.goBack();
+                                // })
                         }}
                         title="Add Friend"
                         color="#841584"
@@ -125,6 +114,15 @@ export default class AddFriend extends React.Component<Props, State> {
                 </View>
             </ScrollView>
         );
-    }
-}
+    };
+
+const mapStateToProps = ( state: ItemsState ) => ({
+    items: state.items
+});
+
+export default connect(mapStateToProps)(AddItem);
+
+
+
+
 
