@@ -22,13 +22,14 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunkMiddleware from "redux-thunk";;
 import {composeWithDevTools} from "redux-devtools-extension";
-import AddItem from "./pages/AddItem/AddItem";
+import AddItem from "./pages/AddItem/EditItemForm";
 import {itemsReducer} from "./store/items/reducers";
 import {createStackNavigator} from "react-navigation-stack";
 import {editItemReducer} from "./store/editItems/reducers";
 import {createAppContainer} from "react-navigation";
 
 import ItemListPage from "./pages/ItemListPage/ItemListPage";
+import EditItemForm from "./pages/AddItem/EditItemForm";
 
 const middlewares = [thunkMiddleware];
 const middleWareEnhancer = applyMiddleware(...middlewares);
@@ -36,8 +37,8 @@ const middleWareEnhancer = applyMiddleware(...middlewares);
 
 export const Navigator =   createStackNavigator({
     FriendKeeper: ItemListPage,
-    AddFriend:  AddItem,
-    EditFriend:  AddItem,
+    AddFriend:  EditItemForm,
+    EditFriend:  EditItemForm,
 });
 
 

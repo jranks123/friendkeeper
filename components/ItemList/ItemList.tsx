@@ -2,22 +2,18 @@ import React from 'react';
 import { FlatList, TouchableOpacity} from 'react-native';
 import {calculateDaysOverdue} from "../../utils/date";
 import { styles } from './styles';
-import FriendListItem from "../FriendListItem/FriendListItem";
-import {NavigationParams} from "react-navigation";
+import ItemListElement from "../ItemListElement/ItemListElement";
 import {Item, ItemsState} from "../../store/items/types";
-import {connect} from "react-redux";
-import {AppState} from "../../store";
-import {CombinedState} from "../../store/types";
 
-interface Props {
+export interface ItemListProps {
     items: Item[];
     filterOutIf: (number) => boolean;
-    navigate: (screen: string, props: NavigationParams ) => void;
+    refreshPage: () => void;
+    populateEditItemStateThenGoToEditItemForm: (item) => void
 }
 
 const sortItems = (items: Item[]): Item[] => {
     return items.sort((a, b) => {
-        const today = new Date();
         const aDaysOverdue: number = calculateDaysOverdue(a.dateOfLastAction, parseInt(a.maximumDaysBetweenActions));
         const bDaysOverdue: number = calculateDaysOverdue(b.dateOfLastAction, parseInt(b.maximumDaysBetweenActions));
         if (aDaysOverdue > bDaysOverdue) {
@@ -31,23 +27,20 @@ const sortItems = (items: Item[]): Item[] => {
 };
 
 
-const ItemList = (props: Props) => {
+const ItemList = (props: ItemListProps) => {
     return (
     <FlatList
         data={sortItems(props.items)}
         renderItem={({item}) => {
             const daysOverdue: number = calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions));
-            const listItemOnPress = (item: Item) => {
-                props.navigate('EditFriend', {item: item})
-            };
-
             if (props.filterOutIf(daysOverdue)) {
                 return null;
             }
-            console.log("not null")
+
+            const itemListElementProps = {item, daysOverdue};
             return (
-                <TouchableOpacity style={styles.itemContainer} onPress={() => listItemOnPress(item)}>
-                    <FriendListItem friend={item} daysOverdue={daysOverdue}/>
+                <TouchableOpacity style={styles.itemContainer} onPress={() => props.populateEditItemStateThenGoToEditItemForm(item)}>
+                    <ItemListElement {...itemListElementProps}/>
                 </TouchableOpacity>
             )
         }}
@@ -56,8 +49,4 @@ const ItemList = (props: Props) => {
         keyExtractor={(item, index) => index.toString()}
     />)};
 
-const mapStateToProps = ( state: CombinedState ) => ({
-    items: state.itemsState.items
-});
-
-export default connect(mapStateToProps)(ItemList);
+export default ItemList;

@@ -1,4 +1,12 @@
-import {EditItemActions, UPDATE_DATE_OF_LAST_ACTION, UPDATE_MAXIMUM_DAYS_BETWEEN_ACTIONS, UPDATE_NAME} from './types'
+import {
+    CLEAR_EDIT_ITEM_STATE,
+    EditItemActions,
+    POPULATE_EDIT_ITEM_STATE_FROM_ITEM,
+    UPDATE_DATE_OF_LAST_ACTION,
+    UPDATE_MAXIMUM_DAYS_BETWEEN_ACTIONS,
+    UPDATE_NAME
+} from './types'
+import {Item} from "../items/types";
 
 export function updateName(name: string): EditItemActions {
     return {
@@ -18,3 +26,17 @@ export function updateMaximumDaysBetweenActions(days: string): EditItemActions {
         days
     }
 }
+
+export function clearEditItemStateAction(): EditItemActions {
+    return {
+        type: CLEAR_EDIT_ITEM_STATE
+    }
+}
+
+export function populateEditItemStateFromFromItem(item: Item): EditItemActions {
+    return {
+        type: POPULATE_EDIT_ITEM_STATE_FROM_ITEM,
+        item
+    }
+}
+

@@ -7,7 +7,12 @@ import {globalStyles} from "../../styles";
 import {getNewIdNumber} from "../../utils/storage";
 import {Item, ItemsState} from "../../store/items/types";
 import {connect} from "react-redux";
-import {updateDateOfLastAction, updateMaximumDaysBetweenActions, updateName} from "../../store/editItems/actions";
+import {
+    clearEditItemStateAction,
+    updateDateOfLastAction,
+    updateMaximumDaysBetweenActions,
+    updateName
+} from "../../store/editItems/actions";
 import {editItem} from "../../store/items/actions";
 import {CombinedState} from "../../store/types";
 
@@ -16,20 +21,22 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-interface Props {
+export interface EditItemFormProps {
     items: Item[];
+    id: string | null;
     name: string;
     dateOfLastAction: Date;
     maximumDaysBetweenActions: string;
     updateName: (name: string) => void;
     updateMaximumDaysBetweenActions: (days: string) => void;
     updateDateOfLastAction: (date: Date) => void;
+    clearEditItemState: () => void,
     editItem: (item: Item) => void
     navigation: any
 }
 
-const AddItem = (props: Props) => {
-        console.log(props.items)
+const EditItemForm = (props: EditItemFormProps) => {
+        console.log(props.items);
         return (
             <ScrollView
                 keyboardShouldPersistTaps = "always"
@@ -80,13 +87,15 @@ const AddItem = (props: Props) => {
                     <Button
                         onPress={() => {
                                 const item: Item = {
-                                    id: getNewIdNumber(props.items),
+                                    // if it is null then this is a new item
+                                    id: props.id || getNewIdNumber(props.items),
                                     name: props.name,
                                     dateOfLastAction: props.dateOfLastAction.toString(),
                                     maximumDaysBetweenActions: props.maximumDaysBetweenActions
                                 };
                                 props.editItem(item);
-                                props.navigation.getParam('onBack')()
+                                props.clearEditItemState();
+                                props.navigation.getParam('onBack')();
                                 props.navigation.goBack();
                         }}
                         title="Add Friend"
@@ -99,6 +108,7 @@ const AddItem = (props: Props) => {
 
 const mapStateToProps = (state: CombinedState) => ({
         items: state.itemsState.items,
+        id: state.editItemState.id,
         name: state.editItemState.name,
         maximumDaysBetweenActions: state.editItemState.maximumDaysBetweenActions,
         dateOfLastAction: state.editItemState.dateOfLastAction
@@ -109,11 +119,12 @@ const mapDispatchToProps = (dispatch: Function) =>  ({
     updateName: (name: string) => dispatch(updateName(name)),
     updateMaximumDaysBetweenActions: (name: string) => dispatch(updateMaximumDaysBetweenActions(name)),
     updateDateOfLastAction: (date: Date) => dispatch(updateDateOfLastAction(date)),
+    clearEditItemState: () => dispatch(clearEditItemStateAction()),
     editItem: (item: Item) => dispatch(editItem(item))
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddItem);
+export default connect(mapStateToProps, mapDispatchToProps)(EditItemForm);
 
 
 
