@@ -36,21 +36,18 @@ const sortItems = (items: Item[]): Item[] => {
 const ItemList = (props: ItemListProps) => {
     return (
     <FlatList
+        style={styles.itemListContainer}
         data={sortItems(props.items)}
         renderItem={({item}) => {
             const daysOverdue: number = calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions), item.name);
-            if (props.filterOutIf(daysOverdue)) {
-                return null;
-            }
-
             const navigateToItemOptionsPage = () => {
                 props.populateEditItemStateFromFromItem(item);
-                props.navigation.navigate('ItemOptionsPage')
+                props.navigation.navigate('Options')
             };
 
             const itemListElementProps = {item, daysOverdue};
             return (
-                <TouchableOpacity style={styles.itemContainer} onPress={() => navigateToItemOptionsPage()}>
+                <TouchableOpacity style={styles.itemListItem} onPress={() => navigateToItemOptionsPage()}>
                     <ItemListElement {...itemListElementProps}/>
                 </TouchableOpacity>
             )
@@ -62,7 +59,6 @@ const ItemList = (props: ItemListProps) => {
 
 
 const mapStateToProps = (state: CombinedState) => ({
-    items: state.itemsState.items,
     id: state.editItemState.id,
     name: state.editItemState.name,
     maximumDaysBetweenActions: state.editItemState.maximumDaysBetweenActions,

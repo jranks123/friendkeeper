@@ -11,6 +11,7 @@ import { clearEditItemStateAction } from "../../store/editItems/actions";
 import { populateEditItemStateFromFromItem } from "../../store/editItems/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
+import { calculateDaysOverdue } from "../../utils/date";
 
 YellowBox.ignoreWarnings([
     'VirtualizedLists should never be nested', // TODO: Remove when fixed
@@ -27,13 +28,33 @@ interface Props {
 }
 
 
+const ItemListComponent = (itemListProps: ItemListProps, copy: string) => {
+    return itemListProps.items.length > 0 ? (<View>
+        <Text style={styles.title}>{copy}</Text>
+        <ItemsList {...itemListProps}> </ItemsList>
+    </View>) : null;
+};
+
+const NoItemsCopy = (items: Item[]) => {
+    return items.length === 0 ? (
+            <View style={globalStyles.centeredTextContainer}>
+                <Text
+                 style={styles.noFriendsCopy}
+                >Add a friend to get started</Text>
+            </View>
+    ) : null;
+};
 
 const ItemListPage = (props: Props) => {
 
+    const overDueItems = props.items.filter(
+        item => calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions), item.name) > 0);
+
+    const upcomingItems = props.items.filter(
+        item => calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions), item.name) <= 0);
 
     const overdueItemsListProps: ItemListProps = {
-        items: props.items,
-        filterOutIf: (daysOverdue: number) => daysOverdue <= 0,
+        items: overDueItems,
         refreshState: props.refreshState,
         populateEditItemStateFromFromItem: props.populateEditItemStateFromFromItem,
         navigation: props.navigation
@@ -41,24 +62,15 @@ const ItemListPage = (props: Props) => {
 
     const upcomingItemsListProps: ItemListProps = {
         ...overdueItemsListProps,
-        filterOutIf: (daysOverdue: number) => daysOverdue > 0,
+        items: upcomingItems
     };
-
 
     return (
         <ScrollView contentContainerStyle={globalStyles.mainContainer}>
-            <Text style={styles.title}
-            > Overdue: </Text>
-            <ItemsList
-               {...overdueItemsListProps}
-            >
-            </ItemsList>
-            <Text style={styles.gap}> </Text>
-            <Text style={styles.title}> Coming up: </Text>
-            <ItemsList
-                {...upcomingItemsListProps}>
-            >
-            </ItemsList>
+            {NoItemsCopy(props.items)}
+            {ItemListComponent(overdueItemsListProps, "Overdue:")}
+            {ItemListComponent(upcomingItemsListProps, "Upcoming:")}
+
             <View style={globalStyles.buttonContainer}>
                 <TouchableOpacity
                     style={globalStyles.button}

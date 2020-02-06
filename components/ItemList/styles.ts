@@ -1,7 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  itemContainer: {
+  itemListContainer: {
+    marginBottom: 20
+  },
+  itemListItem: {
     flex: 1,
     flexDirection: "column",
     margin: 1,

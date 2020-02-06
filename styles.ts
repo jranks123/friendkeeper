@@ -7,6 +7,13 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30
   },
+  centeredTextContainer: {
+      display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    textAlign: "center",
+  },
   bold: {
     fontWeight: "bold"
   },
