@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { connect } from "react-redux";
 import {
     clearEditItemStateAction, populateEditItemStateFromFromItem,
@@ -7,10 +7,9 @@ import {
     updateMaximumDaysBetweenActions,
     updateName
 } from "../../store/editItems/actions";
-import { editItem, refreshState } from "../../store/items/actions";
+import { deleteItem, editItem, refreshState } from "../../store/items/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
-import { styles } from './styles';
 import { globalStyles } from "../../styles";
 
 
@@ -19,15 +18,16 @@ interface ItemOptionsPageProps {
     items: Item[];
     id: number | null;
     name: string;
-    dateOfLastAction: Date;
+    dateOfLastAction: number;
     maximumDaysBetweenActions: string;
     updateName: (name: string) => void;
     updateMaximumDaysBetweenActions: (days: string) => void;
-    updateDateOfLastAction: (date: Date) => void;
+    updateDateOfLastAction: (date: number) => void;
     populateEditItemStateFromFromItem: (item: Item) => void;
     refreshState: () => void;
     clearEditItemState: () => void,
-    editItem: (item: Item) => void
+    editItem: (item: Item) => void,
+    deleteItem: (id: number) => void,
     navigation: any
 }
 
@@ -44,7 +44,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
                 <View style={globalStyles.buttonContainer}>
                     <TouchableOpacity
                         onPress={() => {
-                            props.editItem({...itemFromState, dateOfLastAction: new Date()});
+                            props.editItem({...itemFromState, dateOfLastAction: new Date().getTime()});
                             props.refreshState();
                             props.navigation.goBack();
                         }}
@@ -62,6 +62,17 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
                     >
                         <Text style={globalStyles.buttonText}> Edit friend manually </Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            props.deleteItem(props.id);
+                            props.refreshState();
+                            props.navigation.goBack();
+                        }}
+                        style={globalStyles.button}
+                    >
+                        <Text style={globalStyles.buttonText}> Remove friend from list </Text>
+                    </TouchableOpacity>
                 </View>
         )
     };
@@ -78,11 +89,12 @@ const mapStateToProps = (state: CombinedState) => ({
 const mapDispatchToProps = (dispatch) =>  ({
     updateName: (name: string) => dispatch(updateName(name)),
     updateMaximumDaysBetweenActions: (name: string) => dispatch(updateMaximumDaysBetweenActions(name)),
-    updateDateOfLastAction: (date: Date) => dispatch(updateDateOfLastAction(date)),
+    updateDateOfLastAction: (date: number) => dispatch(updateDateOfLastAction(date)),
     clearEditItemState: () => dispatch(clearEditItemStateAction()),
     editItem: (item: Item) => dispatch(editItem(item)),
     refreshState: () => dispatch(refreshState()),
     populateEditItemStateFromFromItem: (item: Item) => dispatch(populateEditItemStateFromFromItem(item)),
+    deleteItem: (id: number) => dispatch(deleteItem(id)),
 });
 
 

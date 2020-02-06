@@ -1,10 +1,10 @@
 // Describing the shape of the friend slice of state
 
-import { Item } from "../items/types";
+import { DELETE_ITEM, Item } from "../items/types";
 
 export interface EditItemState {
   name: string;
-  dateOfLastAction: Date | null;
+  dateOfLastAction: number | null;
   maximumDaysBetweenActions: string;
   id: number | null;
 }
@@ -26,7 +26,7 @@ interface UpdateNameAction {
 
 interface UpdateDateOfLastAction {
   type: typeof UPDATE_DATE_OF_LAST_ACTION;
-  date: Date;
+  date: number;
 }
 
 interface UpdateMaximumDaysBetweenAction {
@@ -43,9 +43,15 @@ interface PopulateEditItemStateFromItemAction {
   item: Item;
 }
 
+interface DeleteItemAction {
+  type: typeof DELETE_ITEM;
+  item: Item;
+}
+
 export type EditItemActions =
   | UpdateNameAction
   | UpdateDateOfLastAction
   | UpdateMaximumDaysBetweenAction
   | ClearEditItemAction
-  | PopulateEditItemStateFromItemAction;
+  | PopulateEditItemStateFromItemAction
+    | DeleteItemAction;

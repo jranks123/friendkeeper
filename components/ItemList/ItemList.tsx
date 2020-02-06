@@ -20,8 +20,8 @@ export interface ItemListProps {
 
 const sortItems = (items: Item[]): Item[] => {
     return items.sort((a, b) => {
-        const aDaysOverdue: number = calculateDaysOverdue(a.dateOfLastAction, parseInt(a.maximumDaysBetweenActions));
-        const bDaysOverdue: number = calculateDaysOverdue(b.dateOfLastAction, parseInt(b.maximumDaysBetweenActions));
+        const aDaysOverdue: number = calculateDaysOverdue(a.dateOfLastAction, parseInt(a.maximumDaysBetweenActions), a.name);
+        const bDaysOverdue: number = calculateDaysOverdue(b.dateOfLastAction, parseInt(b.maximumDaysBetweenActions), b.name);
         if (aDaysOverdue > bDaysOverdue) {
             return -1;
         }
@@ -38,7 +38,7 @@ const ItemList = (props: ItemListProps) => {
     <FlatList
         data={sortItems(props.items)}
         renderItem={({item}) => {
-            const daysOverdue: number = calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions));
+            const daysOverdue: number = calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions), item.name);
             if (props.filterOutIf(daysOverdue)) {
                 return null;
             }

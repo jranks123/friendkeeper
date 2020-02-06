@@ -1,4 +1,7 @@
-export function calculateDaysAgo(startDate: Date): number {
+export function calculateDaysAgo(startDateNum: number): number {
+
+  const startDate = new Date(startDateNum);
+
   // The number of milliseconds in all UTC days (no DST)
   const oneDay = 1000 * 60 * 60 * 24;
   const endDate = new Date();
@@ -9,9 +12,9 @@ export function calculateDaysAgo(startDate: Date): number {
     endDate.getDate()
   );
   const end = Date.UTC(
-    startDate.getFullYear(),
-    startDate.getMonth(),
-    startDate.getDate()
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate()
   );
 
   // so it's safe to divide by 24 hours
@@ -19,8 +22,9 @@ export function calculateDaysAgo(startDate: Date): number {
 }
 
 export function calculateDaysOverdue(
-  dateOfLastRendezvous: Date,
-  maximumDaysBetweenRendezvous: number
+  dateOfLastRendezvous: number,
+  maximumDaysBetweenRendezvous: number,
+  name: string
 ): number {
   if (dateOfLastRendezvous === null) {
     return null;

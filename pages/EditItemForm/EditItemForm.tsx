@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { Input } from 'react-native-elements'
 import { connect } from "react-redux";
@@ -19,11 +19,11 @@ export interface EditItemFormProps {
     items: Item[];
     id: number | null;
     name: string;
-    dateOfLastAction: Date;
+    dateOfLastAction: number;
     maximumDaysBetweenActions: string;
     updateName: (name: string) => void;
     updateMaximumDaysBetweenActions: (days: string) => void;
-    updateDateOfLastAction: (date: Date) => void;
+    updateDateOfLastAction: (date: number) => void;
     clearEditItemState: () => void,
     refreshState: () => void,
     editItem: (item: Item) => void
@@ -76,7 +76,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                     </Text>
                     <DatePicker
                         style={styles.datePicker}
-                        date={props.dateOfLastAction} // initial date from state
+                        date={new Date(props.dateOfLastAction)} // initial date from state
                         mode="date" // The enum of date, datetime and time
                         placeholder="select date"
                         format="YYYY-MM-DD"
@@ -96,7 +96,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                             }
                         }}
                         onDateChange={(dateString: string) => {
-                            props.updateDateOfLastAction(new Date(dateString))
+                            props.updateDateOfLastAction(new Date(dateString).getTime())
                         }}
                     />
                 </View>
@@ -127,7 +127,7 @@ const mapStateToProps = (state: CombinedState) => ({
 const mapDispatchToProps = (dispatch: Function) =>  ({
     updateName: (name: string) => dispatch(updateName(name)),
     updateMaximumDaysBetweenActions: (name: string) => dispatch(updateMaximumDaysBetweenActions(name)),
-    updateDateOfLastAction: (date: Date) => dispatch(updateDateOfLastAction(date)),
+    updateDateOfLastAction: (date: number) => dispatch(updateDateOfLastAction(date)),
     editItem: (item: Item) => dispatch(editItem(item)),
     refreshState: () => dispatch(refreshState())
 });

@@ -3,13 +3,13 @@
 export interface Item {
   id: number | null;
   name: string;
-  dateOfLastAction: Date | null;
+  dateOfLastAction: number | null;
   maximumDaysBetweenActions: string;
 }
 
 export interface ItemsState {
   items: Item[];
-  lastRefreshDate: Date;
+  lastRefreshDate: number;
 }
 
 // Describing the different ACTION NAMES available

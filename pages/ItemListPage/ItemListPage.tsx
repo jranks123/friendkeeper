@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { YellowBox } from 'react-native'
 import { connect } from 'react-redux';
 import ItemsList, { ItemListProps } from "../../components/ItemList/ItemList";
@@ -23,7 +23,7 @@ interface Props {
     populateEditItemStateFromFromItem: (item: Item) => void,
     clearEditItemState: () => void,
     navigation: any,
-    date: Date
+    date: number
 }
 
 
@@ -95,7 +95,7 @@ const mapDispatchToProps = (dispatch) =>  ({
     deleteAllItems: () => dispatch(deleteAllItems()),
     refreshState: () => dispatch(refreshState()),
     clearEditItemState: () => dispatch(clearEditItemStateAction()),
-    populateEditItemStateFromFromItem: (item) => dispatch(populateEditItemStateFromFromItem(item))
+    populateEditItemStateFromFromItem:  (item) => dispatch(populateEditItemStateFromFromItem(item))
 
 });
 

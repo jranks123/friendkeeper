@@ -11,7 +11,7 @@ import {
 const initialState: EditItemState = {
   id: null,
   name: "",
-  dateOfLastAction: new Date(),
+  dateOfLastAction: new Date().getTime(),
   maximumDaysBetweenActions: ""
 };
 
@@ -40,7 +40,7 @@ export function editItemReducer(
         ...state,
         id: action.item.id,
         name: action.item.name,
-        dateOfLastAction: new Date(action.item.dateOfLastAction),
+        dateOfLastAction: action.item.dateOfLastAction,
         maximumDaysBetweenActions: action.item.maximumDaysBetweenActions
       };
     case CLEAR_EDIT_ITEM_STATE:

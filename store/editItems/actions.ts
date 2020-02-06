@@ -14,7 +14,7 @@ export function updateName(name: string): EditItemActions {
     name
   };
 }
-export function updateDateOfLastAction(date: Date): EditItemActions {
+export function updateDateOfLastAction(date: number): EditItemActions {
   return {
     type: UPDATE_DATE_OF_LAST_ACTION,
     date
