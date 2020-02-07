@@ -41,7 +41,7 @@ persistStore(
     () => {
         store.getState() // if you want to get restoredState
     }
-)
+);
 
 
 export default class App extends Component {
