@@ -43,10 +43,10 @@ const EditItemForm = (props: EditItemFormProps) => {
 
     const setNotification = (): Promise<string> => {
 
+
         const daysTilShow = Math.abs(calculateDaysOverdue(props.editItemState.dateOfLastAction, props.editItemState.maximumDaysBetweenActions));
-        const schedulingOptions = {
-            time: new Date().getTime() + (daysTilShow * 60 * 60 * 24) ,
-        };
+        const time = new Date(new Date().getTime() + (daysTilShow * 60 * 60 * 24 * 1000));
+        const schedulingOptions = { time };
 
         return Notifications.scheduleLocalNotificationAsync(
             localNotification(props.editItemState),
