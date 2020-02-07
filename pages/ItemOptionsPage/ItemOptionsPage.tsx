@@ -18,7 +18,7 @@ interface ItemOptionsPageProps {
     items: Item[];
     editItemState: Item;
     updateName: (name: string) => void;
-    updateMaximumDaysBetweenActions: (days: string) => void;
+    updateMaximumDaysBetweenActions: (days: number) => void;
     updateDateOfLastAction: (date: number) => void;
     populateEditItemStateFromFromItem: (item: Item) => void;
     refreshState: () => void;
@@ -83,7 +83,7 @@ const mapStateToProps = (state: CombinedState) => ({
 
 const mapDispatchToProps = (dispatch) =>  ({
     updateName: (name: string) => dispatch(updateName(name)),
-    updateMaximumDaysBetweenActions: (name: string) => dispatch(updateMaximumDaysBetweenActions(name)),
+    updateMaximumDaysBetweenActions: (days: number) => dispatch(updateMaximumDaysBetweenActions(days)),
     updateDateOfLastAction: (date: number) => dispatch(updateDateOfLastAction(date)),
     clearEditItemState: () => dispatch(clearEditItemStateAction()),
     editItem: (item: Item) => dispatch(editItem(item)),

@@ -3,6 +3,7 @@ import {
   EditItemActions,
   EditItemState,
   POPULATE_EDIT_ITEM_STATE_FROM_ITEM,
+  UPDATE_CURRENT_NOTIFICATION_ID,
   UPDATE_DATE_OF_LAST_ACTION,
   UPDATE_MAXIMUM_DAYS_BETWEEN_ACTIONS,
   UPDATE_NAME
@@ -13,7 +14,7 @@ const initialState: EditItemState = {
       id: null,
       name: "",
       dateOfLastAction: new Date().getTime(),
-      maximumDaysBetweenActions: "",
+      maximumDaysBetweenActions: 7,
       currentNotificationId: null
   }
 };
@@ -47,6 +48,16 @@ export function editItemReducer(
           maximumDaysBetweenActions: action.days
         }
       };
+
+    case UPDATE_CURRENT_NOTIFICATION_ID:
+      return {
+        ...state,
+        item: {
+          ...state.item,
+          currentNotificationId: action.id
+        }
+      };
+
     case POPULATE_EDIT_ITEM_STATE_FROM_ITEM:
       return {
         ...state,

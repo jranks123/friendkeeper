@@ -48,10 +48,10 @@ const NoItemsCopy = (items: Item[]) => {
 const ItemListPage = (props: Props) => {
 
     const overDueItems = props.items.filter(
-        item => calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions), item.name) > 0);
+        item => calculateDaysOverdue(item.dateOfLastAction, item.maximumDaysBetweenActions) > 0);
 
     const upcomingItems = props.items.filter(
-        item => calculateDaysOverdue(item.dateOfLastAction, parseInt(item.maximumDaysBetweenActions), item.name) <= 0);
+        item => calculateDaysOverdue(item.dateOfLastAction, item.maximumDaysBetweenActions) <= 0);
 
     const overdueItemsListProps: ItemListProps = {
         items: overDueItems,

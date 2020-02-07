@@ -24,7 +24,6 @@ export function calculateDaysAgo(startDateNum: number): number {
 export function calculateDaysOverdue(
   dateOfLastRendezvous: number,
   maximumDaysBetweenRendezvous: number,
-  name: string
 ): number {
   if (dateOfLastRendezvous === null) {
     return null;

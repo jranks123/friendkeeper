@@ -4,7 +4,7 @@ export interface Item {
   id: number | null;
   name: string;
   dateOfLastAction: number | null;
-  maximumDaysBetweenActions: string;
+  maximumDaysBetweenActions: number | null;
   currentNotificationId: string | null;
 }
 

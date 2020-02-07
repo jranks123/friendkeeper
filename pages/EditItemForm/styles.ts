@@ -6,6 +6,9 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start"
   },
+  formContainer: {
+    flex: 1
+  },
   input: {
     marginBottom: 40
   },
@@ -24,5 +27,14 @@ export const styles = StyleSheet.create({
     width: 200,
     marginLeft: 10,
     marginTop: 10
+  },
+  numericInput: {
+    marginTop: 10,
+    marginBottom: 40
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 36
   }
 });

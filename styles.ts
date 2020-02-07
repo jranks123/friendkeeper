@@ -7,6 +7,12 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30
   },
+  form: {
+    justifyContent: "flex-start",
+    paddingTop: 20,
+    paddingLeft: 30,
+    paddingRight: 30
+  },
   centeredTextContainer: {
       display: "flex",
     alignItems: "center",

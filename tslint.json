@@ -10,7 +10,8 @@
         "radix": false,
         "whitespace": [true, "check-module"],
         "no-unused-variable": true,
-        "ordered-imports": true
+        "ordered-imports": true,
+        "no-console": false
     },
     "rulesDirectory": []
 
