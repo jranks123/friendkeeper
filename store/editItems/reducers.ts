@@ -9,10 +9,13 @@ import {
 } from "./types";
 
 const initialState: EditItemState = {
-  id: null,
-  name: "",
-  dateOfLastAction: new Date().getTime(),
-  maximumDaysBetweenActions: ""
+  item: {
+      id: null,
+      name: "",
+      dateOfLastAction: new Date().getTime(),
+      maximumDaysBetweenActions: "",
+      currentNotificationId: null
+  }
 };
 
 export function editItemReducer(
@@ -23,25 +26,38 @@ export function editItemReducer(
     case UPDATE_NAME:
       return {
         ...state,
-        name: action.name
+        item: {
+          ...state.item,
+          name: action.name
+        }
       };
     case UPDATE_DATE_OF_LAST_ACTION:
       return {
         ...state,
-        dateOfLastAction: action.date
+        item: {
+          ...state.item,
+          dateOfLastAction: action.date
+        }
       };
     case UPDATE_MAXIMUM_DAYS_BETWEEN_ACTIONS:
       return {
         ...state,
-        maximumDaysBetweenActions: action.days
+        item: {
+          ...state.item,
+          maximumDaysBetweenActions: action.days
+        }
       };
     case POPULATE_EDIT_ITEM_STATE_FROM_ITEM:
       return {
         ...state,
-        id: action.item.id,
-        name: action.item.name,
-        dateOfLastAction: action.item.dateOfLastAction,
-        maximumDaysBetweenActions: action.item.maximumDaysBetweenActions
+        item: {
+          ...state.item,
+          id: action.item.id,
+          name: action.item.name,
+          dateOfLastAction: action.item.dateOfLastAction,
+          maximumDaysBetweenActions: action.item.maximumDaysBetweenActions,
+          currentNotificationId: action.item.currentNotificationId
+        }
       };
     case CLEAR_EDIT_ITEM_STATE:
       return {

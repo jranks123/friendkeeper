@@ -10,6 +10,8 @@ import thunkMiddleware from "redux-thunk";
 import { editItemReducer } from "./store/editItems/reducers";
 import { itemsReducer } from "./store/items/reducers";
 
+import Constants from "expo-constants";
+import * as Permissions from "expo-permissions";
 import EditItemForm from "./pages/EditItemForm/EditItemForm";
 import ItemListPage from "./pages/ItemListPage/ItemListPage";
 import ItemOptionsPage from "./pages/ItemOptionsPage/ItemOptionsPage";
@@ -31,6 +33,15 @@ export const Navigator =   createStackNavigator({
 
 
 const AppContainer = createAppContainer(Navigator);
+
+const askNotification = async () => {
+    // We need to ask for Notification permissions for ios devices
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    if (Constants.isDevice && status === 'granted')
+        console.log('Notification permissions granted.');
+};
+
+askNotification().catch(err => console.warn("Error giving permission"));
 
 const rootReducer = persistCombineReducers(config, {editItemState: editItemReducer, itemsState: itemsReducer});
 

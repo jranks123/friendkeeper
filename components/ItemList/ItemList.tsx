@@ -12,7 +12,6 @@ import { styles } from './styles';
 
 export interface ItemListProps {
     items: Item[];
-    filterOutIf: (daysSinceAction: number) => boolean;
     refreshState: () => void;
     navigation: any,
     populateEditItemStateFromFromItem: (item: Item) => void
@@ -58,12 +57,7 @@ const ItemList = (props: ItemListProps) => {
     />)};
 
 
-const mapStateToProps = (state: CombinedState) => ({
-    id: state.editItemState.id,
-    name: state.editItemState.name,
-    maximumDaysBetweenActions: state.editItemState.maximumDaysBetweenActions,
-    dateOfLastAction: state.editItemState.dateOfLastAction
-});
+const mapStateToProps = (state: CombinedState) => ({});
 
 
 const mapDispatchToProps = (dispatch) =>  ({

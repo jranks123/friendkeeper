@@ -1,3 +1,5 @@
+import { Notifications } from "expo";
+import { LocalNotification } from "expo/build/Notifications/Notifications.types";
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-datepicker';
@@ -17,10 +19,7 @@ import { styles } from './styles';
 
 export interface EditItemFormProps {
     items: Item[];
-    id: number | null;
-    name: string;
-    dateOfLastAction: number;
-    maximumDaysBetweenActions: string;
+    editItemState: Item,
     updateName: (name: string) => void;
     updateMaximumDaysBetweenActions: (days: string) => void;
     updateDateOfLastAction: (date: number) => void;
@@ -30,15 +29,37 @@ export interface EditItemFormProps {
     navigation: any
 }
 
+const localNotification: LocalNotification = { title: 'done', body: 'done!' };
+
+
+const setUpNotification = (secondsTillShow: number) => {
+
+    const schedulingOptions = {
+        time: new Date().getTime() + secondsTillShow * 1000,
+    };
+    // Notifications show only when app is not active.
+    // (ie. another app being used or device's screen is locked)
+
+
+    Notifications.scheduleLocalNotificationAsync(
+        localNotification,
+        schedulingOptions,
+    ).then(id => {
+        console.log("ID = " + id);
+    });
+}
+
 const EditItemForm = (props: EditItemFormProps) => {
     function onPress() {
         const item: Item = {
             // if it is null then this is a new item
-            id: props.id || getNewIdNumber(props.items),
-            name: props.name,
-            dateOfLastAction: props.dateOfLastAction,
-            maximumDaysBetweenActions: props.maximumDaysBetweenActions
+            id: props.editItemState.id || getNewIdNumber(props.items),
+            name: props.editItemState.name,
+            dateOfLastAction: props.editItemState.dateOfLastAction,
+            maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
+            currentNotificationId: props.editItemState.currentNotificationId,
         };
+        setUpNotification(parseInt(props.editItemState.maximumDaysBetweenActions));
         props.editItem(item);
         props.refreshState();
         props.navigation.navigate('FriendKeeper');
@@ -57,7 +78,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                         containerStyle={styles.input}
                         // @ts-ignore
                         textAlign={'center'}
-                        value={props.name}
+                        value={props.editItemState.name}
                         onChangeText={props.updateName}
                     />
 
@@ -68,7 +89,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                         containerStyle={styles.input}
                         // @ts-ignore
                         textAlign={'center'}
-                        value={props.maximumDaysBetweenActions}
+                        value={props.editItemState.maximumDaysBetweenActions}
                         onChangeText={props.updateMaximumDaysBetweenActions}
                     />
                     <Text style={styles.label}>
@@ -76,7 +97,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                     </Text>
                     <DatePicker
                         style={styles.datePicker}
-                        date={new Date(props.dateOfLastAction)} // initial date from state
+                        date={new Date(props.editItemState.dateOfLastAction)} // initial date from state
                         mode="date" // The enum of date, datetime and time
                         placeholder="select date"
                         format="YYYY-MM-DD"
@@ -116,10 +137,7 @@ const EditItemForm = (props: EditItemFormProps) => {
 
 const mapStateToProps = (state: CombinedState) => ({
         items: state.itemsState.items,
-        id: state.editItemState.id,
-        name: state.editItemState.name,
-        maximumDaysBetweenActions: state.editItemState.maximumDaysBetweenActions,
-        dateOfLastAction: state.editItemState.dateOfLastAction
+        editItemState: state.editItemState.item,
     });
 
 

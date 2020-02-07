@@ -5,6 +5,7 @@ export interface Item {
   name: string;
   dateOfLastAction: number | null;
   maximumDaysBetweenActions: string;
+  currentNotificationId: string | null;
 }
 
 export interface ItemsState {

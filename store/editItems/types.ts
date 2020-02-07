@@ -3,10 +3,7 @@
 import { DELETE_ITEM, Item } from "../items/types";
 
 export interface EditItemState {
-  name: string;
-  dateOfLastAction: number | null;
-  maximumDaysBetweenActions: string;
-  id: number | null;
+  item: Item
 }
 
 // Describing the different ACTION NAMES available

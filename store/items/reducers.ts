@@ -11,7 +11,7 @@ import {
 
 const initialState: ItemsState = {
   items: [],
-  lastRefreshDate: new Date()
+  lastRefreshDate: new Date().getTime()
 };
 
 function pushToArray(items: Item[], item: Item) {
@@ -47,7 +47,7 @@ export function itemsReducer(
     case REFRESH_STATE:
       return {
         ...state,
-        lastRefreshDate: new Date()
+        lastRefreshDate: new Date().getTime()
       };
     case DELETE_ALL_ITEMS:
       return {

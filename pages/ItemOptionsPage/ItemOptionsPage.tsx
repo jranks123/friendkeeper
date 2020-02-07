@@ -16,10 +16,7 @@ import { globalStyles } from "../../styles";
 interface ItemOptionsPageProps {
     navigateToAddItemForm: () => void,
     items: Item[];
-    id: number | null;
-    name: string;
-    dateOfLastAction: number;
-    maximumDaysBetweenActions: string;
+    editItemState: Item;
     updateName: (name: string) => void;
     updateMaximumDaysBetweenActions: (days: string) => void;
     updateDateOfLastAction: (date: number) => void;
@@ -33,11 +30,12 @@ interface ItemOptionsPageProps {
 
 const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
-        const itemFromState = {
-            id: props.id,
-            name: props.name,
-            dateOfLastAction: props.dateOfLastAction,
-            maximumDaysBetweenActions: props.maximumDaysBetweenActions
+        const itemFromState: Item = {
+            id: props.editItemState.id,
+            name: props.editItemState.name,
+            dateOfLastAction: props.editItemState.dateOfLastAction,
+            maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
+            currentNotificationId: props.editItemState.currentNotificationId,
         };
 
         return (
@@ -65,7 +63,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
                     <TouchableOpacity
                         onPress={() => {
-                            props.deleteItem(props.id);
+                            props.deleteItem(props.editItemState.id);
                             props.refreshState();
                             props.navigation.goBack();
                         }}
@@ -79,10 +77,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
 const mapStateToProps = (state: CombinedState) => ({
         items: state.itemsState.items,
-        id: state.editItemState.id,
-        name: state.editItemState.name,
-        maximumDaysBetweenActions: state.editItemState.maximumDaysBetweenActions,
-        dateOfLastAction: state.editItemState.dateOfLastAction
+        editItemState: state.editItemState.item,
     });
 
 
