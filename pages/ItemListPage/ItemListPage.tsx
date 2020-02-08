@@ -3,7 +3,7 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { YellowBox } from 'react-native'
 import { connect } from 'react-redux';
 import ItemsList, { ItemListProps } from "../../components/ItemList/ItemList";
-import { deleteAllItems, refreshState } from '../../store/items/actions';
+import { refreshState } from '../../store/items/actions';
 import { globalStyles } from '../../styles';
 import { styles } from './styles';
 
@@ -30,7 +30,6 @@ interface Props {
 
 const ItemListComponent = (itemListProps: ItemListProps, copy: string) => {
     return itemListProps.items.length > 0 ? (<View>
-        <Text style={styles.title}>{copy}</Text>
         <ItemsList {...itemListProps}> </ItemsList>
     </View>) : null;
 };
@@ -47,14 +46,8 @@ const NoItemsCopy = (items: Item[]) => {
 
 const ItemListPage = (props: Props) => {
 
-    const overDueItems = props.items.filter(
-        item => calculateDaysOverdue(item.dateOfLastAction, item.maximumDaysBetweenActions) > 0);
-
-    const upcomingItems = props.items.filter(
-        item => calculateDaysOverdue(item.dateOfLastAction, item.maximumDaysBetweenActions) <= 0);
-
     const overdueItemsListProps: ItemListProps = {
-        items: overDueItems,
+        items: props.items,
         refreshState: props.refreshState,
         populateEditItemStateFromFromItem: props.populateEditItemStateFromFromItem,
         navigation: props.navigation
@@ -62,38 +55,33 @@ const ItemListPage = (props: Props) => {
 
     const upcomingItemsListProps: ItemListProps = {
         ...overdueItemsListProps,
-        items: upcomingItems
+        items: props.items
     };
 
+    console.log("refreshing page");
+
     return (
-        <ScrollView contentContainerStyle={globalStyles.mainContainer}>
-            {NoItemsCopy(props.items)}
-            {ItemListComponent(overdueItemsListProps, "Overdue:")}
-            {ItemListComponent(upcomingItemsListProps, "Upcoming:")}
-
-            <View style={globalStyles.buttonContainer}>
-                <TouchableOpacity
-                    style={globalStyles.button}
-                    onPress={() => {
-                        props.clearEditItemState();
-                        props.navigation.navigate(
-                            'AddFriend',
-                            {
-                                refreshLandingPageState: () => props.refreshState()
-                            })
-                    }}
-                >
-                    <Text style={globalStyles.buttonText}> Add Friend</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={globalStyles.button}
-                    onPress={props.deleteAllItems}
-                >
-                    <Text style={globalStyles.buttonText}>Clear all friends</Text>
-                </TouchableOpacity>
+            <View style={styles.pageContainer}>
+                <ScrollView >
+                    {NoItemsCopy(props.items)}
+                    {ItemListComponent(overdueItemsListProps, "Overdue:")}
+                </ScrollView>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        style={globalStyles.button}
+                        onPress={() => {
+                            props.clearEditItemState();
+                            props.navigation.navigate(
+                                'AddFriend',
+                                {
+                                    refreshLandingPageState: () => props.refreshState()
+                                })
+                        }}
+                    >
+                        <Text style={globalStyles.buttonText}> Add Friend </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-
-        </ScrollView>
     );
 };
 
@@ -104,7 +92,6 @@ const mapStateToProps = ( state: CombinedState ) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
-    deleteAllItems: () => dispatch(deleteAllItems()),
     refreshState: () => dispatch(refreshState()),
     clearEditItemState: () => dispatch(clearEditItemStateAction()),
     populateEditItemStateFromFromItem:  (item) => dispatch(populateEditItemStateFromFromItem(item))

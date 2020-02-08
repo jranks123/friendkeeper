@@ -1,7 +1,13 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  title: {
+    pageContainer: {
+      flex: 1,
+        paddingTop: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    title: {
     fontSize: 30,
     marginTop: 0
   },
@@ -9,5 +15,10 @@ export const styles = StyleSheet.create({
         marginTop: 20,
         fontSize: 18,
       color: "grey"
+    },
+    buttonContainer: {
+        marginBottom: 20,
+        marginTop: 20,
+        backgroundColor: 'transparent',
     }
 });

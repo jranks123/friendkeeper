@@ -2,17 +2,17 @@ import { Notifications } from "expo";
 import { LocalNotification } from "expo/build/Notifications/Notifications.types";
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import DatePicker from 'react-native-datepicker';
 import { Input } from 'react-native-elements'
 import NumericInput from 'react-native-numeric-input'
 import { connect } from "react-redux";
+import DatePicker from '../../components/ItemListElement/DatePicker/DatePicker';
 import {
     updateCurrentNotificationId,
     updateDateOfLastAction,
     updateMaximumDaysBetweenActions,
     updateName
 } from "../../store/editItems/actions";
-import { editItem, refreshState } from "../../store/items/actions";
+import {addNewItem, editItem, refreshState} from "../../store/items/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
 import { globalStyles } from "../../styles";
@@ -30,7 +30,8 @@ export interface EditItemFormProps {
     refreshState: () => void,
     editItem: (item: Item) => void,
     updateCurrentNotificationId: (id: string) => void,
-    navigation: any
+    navigation: any,
+    addItem: (item: Item) => void
 }
 
 
@@ -70,24 +71,30 @@ const EditItemForm = (props: EditItemFormProps) => {
         });
     };
 
-    function onPress() {
-        setUpNotification().then( id =>{
-            const item: Item = {
-                // if it is null then this is a new item
-                id: props.editItemState.id || getNewIdNumber(props.items),
-                name: props.editItemState.name,
-                dateOfLastAction: props.editItemState.dateOfLastAction,
-                maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
-                currentNotificationId: id,
-            };
+    const readItemFromEditItemState = (currentNotificationId: string): Item => ({
+        // if it is null then this is a new item
+        id: props.editItemState.id || getNewIdNumber(props.items),
+            name: props.editItemState.name,
+            dateOfLastAction: props.editItemState.dateOfLastAction,
+            maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
+            currentNotificationId,
+    });
 
-            props.editItem(item);
+    function onPress() {
+        setUpNotification().then( currentNotificationId => {
+            const item: Item = readItemFromEditItemState(currentNotificationId);
+            const index = props.items.findIndex(e => e.id === item.id);
+            if (index === -1) {
+                props.addItem(item);
+            } else {
+                props.editItem(item);
+            }
             props.refreshState();
+
             props.navigation.navigate('FriendKeeper');
         });
 
     }
-
 
     return (
         <View style={styles.formContainer}>
@@ -127,31 +134,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                     <Text style={styles.label}>
                         Date of last rendezvous
                     </Text>
-                    <DatePicker
-                        style={styles.datePicker}
-                        date={new Date(props.editItemState.dateOfLastAction)} // initial date from state
-                        mode="date" // The enum of date, datetime and time
-                        placeholder="select date"
-                        format="YYYY-MM-DD"
-                        minDate="1991-01-01"
-                        maxDate={"2091-01-01"}
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        customStyles={{
-                            dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 4,
-                                marginLeft: 0
-                            },
-                            dateInput: {
-
-                            }
-                        }}
-                        onDateChange={(dateString: string) => {
-                            props.updateDateOfLastAction(new Date(dateString).getTime())
-                        }}
-                    />
+                    <DatePicker />
                 </View>
             </ScrollView>
             <View style={styles.bottom}>
@@ -181,7 +164,7 @@ const mapDispatchToProps = (dispatch: Function) =>  ({
     updateDateOfLastAction: (date: number) => dispatch(updateDateOfLastAction(date)),
     editItem: (item: Item) => dispatch(editItem(item)),
     refreshState: () => dispatch(refreshState()),
-    updateCurrentNotificationId: (id: string) => dispatch(updateCurrentNotificationId(id)),
+    addItem: (item: Item) => dispatch(addNewItem(item)),
 });
 
 

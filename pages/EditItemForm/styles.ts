@@ -23,11 +23,6 @@ export const styles = StyleSheet.create({
     color: "grey",
     marginLeft: 10
   },
-  datePicker: {
-    width: 200,
-    marginLeft: 10,
-    marginTop: 10
-  },
   numericInput: {
     marginTop: 10,
     marginBottom: 40

@@ -6,3 +6,4 @@ expo install react-native-gesture-handler react-native-reanimated react-native-s
 TODO:
 
 - migrate to push notifications so that it works on Android
+- swipe to clear friends

@@ -25,7 +25,6 @@ interface AddNewItemAction {
   type: typeof ADD_NEW_ITEM;
   item: Item;
 }
-
 interface EditItemAction {
   type: typeof EDIT_ITEM;
   item: Item;

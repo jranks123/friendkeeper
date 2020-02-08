@@ -14,13 +14,8 @@ const initialState: ItemsState = {
   lastRefreshDate: new Date().getTime()
 };
 
-function pushToArray(items: Item[], item: Item) {
-  const index = items.findIndex(e => e.id === item.id);
-  if (index === -1) {
-    items.push(item);
-  } else {
-    items[index] = item;
-  }
+function pushToArray(items: Item[], item: Item): Item[] {
+  items.push(item);
   return items;
 }
 
@@ -37,7 +32,13 @@ export function itemsReducer(
     case EDIT_ITEM:
       return {
         ...state,
-        items: pushToArray(state.items, action.item)
+        items: state.items.map(
+            item => (item.id === action.item.id) ? {
+                  ...item,
+                  name: action.item.name,
+                  maximumDaysBetweenActions: action.item.maximumDaysBetweenActions,
+                  dateOfLastAction: action.item.dateOfLastAction, currentNotificationId: action.item.currentNotificationId
+                } : item)
       };
     case DELETE_ITEM:
       return {

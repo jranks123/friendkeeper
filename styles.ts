@@ -5,7 +5,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingTop: 20,
     paddingLeft: 30,
-    paddingRight: 30
+    paddingRight: 30,
   },
   form: {
     justifyContent: "flex-start",

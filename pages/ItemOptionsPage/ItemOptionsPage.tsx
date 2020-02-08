@@ -25,7 +25,7 @@ interface ItemOptionsPageProps {
     clearEditItemState: () => void,
     editItem: (item: Item) => void,
     deleteItem: (id: number) => void,
-    navigation: any
+    navigation: any,
 }
 
 const ItemOptionsPage = (props: ItemOptionsPageProps) => {
@@ -53,7 +53,8 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
                     <TouchableOpacity
                         onPress={() => {
-                            props.populateEditItemStateFromFromItem({...itemFromState})
+                            props.populateEditItemStateFromFromItem({...itemFromState});
+                            props.refreshState();
                             props.navigation.navigate('EditFriend')}
                         }
                         style={globalStyles.button}
@@ -77,7 +78,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
 const mapStateToProps = (state: CombinedState) => ({
         items: state.itemsState.items,
-        editItemState: state.editItemState.item,
+            editItemState: state.editItemState.item,
     });
 
 
