@@ -7,12 +7,11 @@ import NumericInput from 'react-native-numeric-input'
 import { connect } from "react-redux";
 import DatePicker from '../../components/ItemListElement/DatePicker/DatePicker';
 import {
-    updateCurrentNotificationId,
     updateDateOfLastAction,
     updateMaximumDaysBetweenActions,
     updateName
 } from "../../store/editItems/actions";
-import {addNewItem, editItem, refreshState} from "../../store/items/actions";
+import { addNewItem, editItem } from "../../store/items/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
 import { globalStyles } from "../../styles";
@@ -27,7 +26,6 @@ export interface EditItemFormProps {
     updateMaximumDaysBetweenActions: (days: number) => void;
     updateDateOfLastAction: (date: number) => void;
     clearEditItemState: () => void,
-    refreshState: () => void,
     editItem: (item: Item) => void,
     updateCurrentNotificationId: (id: string) => void,
     navigation: any,
@@ -89,8 +87,6 @@ const EditItemForm = (props: EditItemFormProps) => {
             } else {
                 props.editItem(item);
             }
-            props.refreshState();
-
             props.navigation.navigate('FriendKeeper');
         });
 
@@ -163,7 +159,6 @@ const mapDispatchToProps = (dispatch: Function) =>  ({
     updateMaximumDaysBetweenActions: (days: number) => dispatch(updateMaximumDaysBetweenActions(days)),
     updateDateOfLastAction: (date: number) => dispatch(updateDateOfLastAction(date)),
     editItem: (item: Item) => dispatch(editItem(item)),
-    refreshState: () => dispatch(refreshState()),
     addItem: (item: Item) => dispatch(addNewItem(item)),
 });
 

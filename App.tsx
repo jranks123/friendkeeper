@@ -27,8 +27,8 @@ const config = {
 export const Navigator =   createStackNavigator({
     FriendKeeper: ItemListPage,
     Options: ItemOptionsPage,
-    AddFriend:  EditItemForm,
-    EditFriend:  EditItemForm,
+    'Add New Friend':  EditItemForm,
+    'Edit Friend':  EditItemForm,
 });
 
 

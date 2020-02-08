@@ -5,7 +5,6 @@ import {
   EDIT_ITEM,
   Item,
   ItemsActions,
-  REFRESH_STATE
 } from "./types";
 
 
@@ -29,8 +28,4 @@ export function deleteItem(itemId: number): ItemsActions {
 }
 export function deleteAllItems(): ItemsActions {
   return { type: DELETE_ALL_ITEMS };
-}
-
-export function refreshState(): ItemsActions {
-  return { type: REFRESH_STATE };
 }

@@ -7,7 +7,7 @@ import {
     updateMaximumDaysBetweenActions,
     updateName
 } from "../../store/editItems/actions";
-import { deleteItem, editItem, refreshState } from "../../store/items/actions";
+import { deleteItem, editItem } from "../../store/items/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
 import { globalStyles } from "../../styles";
@@ -21,7 +21,6 @@ interface ItemOptionsPageProps {
     updateMaximumDaysBetweenActions: (days: number) => void;
     updateDateOfLastAction: (date: number) => void;
     populateEditItemStateFromFromItem: (item: Item) => void;
-    refreshState: () => void;
     clearEditItemState: () => void,
     editItem: (item: Item) => void,
     deleteItem: (id: number) => void,
@@ -43,7 +42,6 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
                     <TouchableOpacity
                         onPress={() => {
                             props.editItem({...itemFromState, dateOfLastAction: new Date().getTime()});
-                            props.refreshState();
                             props.navigation.goBack();
                         }}
                         style={globalStyles.button}
@@ -54,8 +52,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
                     <TouchableOpacity
                         onPress={() => {
                             props.populateEditItemStateFromFromItem({...itemFromState});
-                            props.refreshState();
-                            props.navigation.navigate('EditFriend')}
+                            props.navigation.navigate('Edit Friend')}
                         }
                         style={globalStyles.button}
                     >
@@ -65,7 +62,6 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
                     <TouchableOpacity
                         onPress={() => {
                             props.deleteItem(props.editItemState.id);
-                            props.refreshState();
                             props.navigation.goBack();
                         }}
                         style={globalStyles.button}
@@ -78,7 +74,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
 const mapStateToProps = (state: CombinedState) => ({
         items: state.itemsState.items,
-            editItemState: state.editItemState.item,
+        editItemState: state.editItemState.item,
     });
 
 
@@ -88,7 +84,6 @@ const mapDispatchToProps = (dispatch) =>  ({
     updateDateOfLastAction: (date: number) => dispatch(updateDateOfLastAction(date)),
     clearEditItemState: () => dispatch(clearEditItemStateAction()),
     editItem: (item: Item) => dispatch(editItem(item)),
-    refreshState: () => dispatch(refreshState()),
     populateEditItemStateFromFromItem: (item: Item) => dispatch(populateEditItemStateFromFromItem(item)),
     deleteItem: (id: number) => dispatch(deleteItem(id)),
 });

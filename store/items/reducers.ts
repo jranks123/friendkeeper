@@ -6,17 +6,14 @@ import {
   Item,
   ItemsActions,
   ItemsState,
-  REFRESH_STATE
 } from "./types";
 
 const initialState: ItemsState = {
-  items: [],
-  lastRefreshDate: new Date().getTime()
+  items: []
 };
 
 function pushToArray(items: Item[], item: Item): Item[] {
-  items.push(item);
-  return items;
+  return [...items, item]
 }
 
 export function itemsReducer(
@@ -27,7 +24,7 @@ export function itemsReducer(
     case ADD_NEW_ITEM:
       return {
         ...state,
-        items: pushToArray(state.items, action.item)
+        items: [...state.items, action.item]
       };
     case EDIT_ITEM:
       return {
@@ -44,11 +41,6 @@ export function itemsReducer(
       return {
         ...state,
         items: state.items.filter(item => item.id !== action.itemId)
-      };
-    case REFRESH_STATE:
-      return {
-        ...state,
-        lastRefreshDate: new Date().getTime()
       };
     case DELETE_ALL_ITEMS:
       return {

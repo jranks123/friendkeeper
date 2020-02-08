@@ -12,7 +12,6 @@ import { styles } from './styles';
 
 export interface ItemListProps {
     items: Item[];
-    refreshState: () => void;
     navigation: any,
     populateEditItemStateFromFromItem: (item: Item) => void
 }

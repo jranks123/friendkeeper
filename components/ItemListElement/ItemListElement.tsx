@@ -24,7 +24,6 @@ const ItemListElement = (props: Props) => {
                 {Math.abs(props.daysOverdue)} days <Text
                 style={globalStyles.normal}>{props.daysOverdue > 0 ? "overdue" : "to rendezvous"}</Text>
             </Text>
-            <Text style={styles.friendName}>{props.item.id}</Text>
         </View>
         <View style={styles.iconContainer}>
             <EvilIcons name="chevron-right" size={28} color="grey"/>
