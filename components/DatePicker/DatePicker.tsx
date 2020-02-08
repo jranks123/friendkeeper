@@ -3,9 +3,9 @@ import DatePicker from 'react-native-datepicker';
 import { connect } from "react-redux";
 import {
     updateDateOfLastAction
-} from "../../../store/editItems/actions";
-import { CombinedState } from "../../../store/types";
-import { Item } from "../../../store/items/types";
+} from "../../store/editItems/actions";
+import { Item } from "../../store/items/types";
+import { CombinedState } from "../../store/types";
 import { styles } from './styles';
 
 export interface Props {

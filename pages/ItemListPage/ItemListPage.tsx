@@ -7,10 +7,8 @@ import { globalStyles } from '../../styles';
 import { styles } from './styles';
 
 import { clearEditItemStateAction } from "../../store/editItems/actions";
-import { populateEditItemStateFromFromItem } from "../../store/editItems/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
-import { deleteAllItems } from "../../store/items/actions";
 
 YellowBox.ignoreWarnings([
     'VirtualizedLists should never be nested', // TODO: Remove when fixed
@@ -19,13 +17,13 @@ YellowBox.ignoreWarnings([
 interface Props {
     items: Item[],
     deleteAllItems: () => void,
-    populateEditItemStateFromFromItem: (item: Item) => void,
     clearEditItemState: () => void,
     navigation: any,
+    isSwiping: boolean
 }
 
 
-const ItemListComponent = (itemListProps: ItemListProps, copy: string) => {
+const ItemListComponent = (itemListProps: ItemListProps) => {
     return itemListProps.items.length > 0 ? (<View>
         <ItemsList {...itemListProps}> </ItemsList>
     </View>) : null;
@@ -43,24 +41,20 @@ const NoItemsCopy = (items: Item[]) => {
 
 const ItemListPage = (props: Props) => {
 
-    const overdueItemsListProps: ItemListProps = {
+    const itemListProps: ItemListProps = {
         items: props.items,
-        populateEditItemStateFromFromItem: props.populateEditItemStateFromFromItem,
         navigation: props.navigation
-    };
-
-    const upcomingItemsListProps: ItemListProps = {
-        ...overdueItemsListProps,
-        items: props.items
     };
 
     console.log("refreshing page");
 
     return (
             <View style={styles.pageContainer}>
-                <ScrollView >
+                <ScrollView
+                    scrollEnabled={!props.isSwiping}
+                >
                     {NoItemsCopy(props.items)}
-                    {ItemListComponent(overdueItemsListProps, "Overdue:")}
+                    {ItemListComponent(itemListProps)}
                 </ScrollView>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
@@ -80,12 +74,11 @@ const ItemListPage = (props: Props) => {
 
 const mapStateToProps = ( state: CombinedState ) => ({
     items: state.itemsState.items,
+    isSwiping: state.landingPageState.isSwiping
 });
 
 const mapDispatchToProps = (dispatch) =>  ({
     clearEditItemState: () => dispatch(clearEditItemStateAction()),
-    populateEditItemStateFromFromItem:  (item) => dispatch(populateEditItemStateFromFromItem(item))
-
 });
 
 

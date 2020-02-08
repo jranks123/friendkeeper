@@ -15,6 +15,7 @@ import * as Permissions from "expo-permissions";
 import EditItemForm from "./pages/EditItemForm/EditItemForm";
 import ItemListPage from "./pages/ItemListPage/ItemListPage";
 import ItemOptionsPage from "./pages/ItemOptionsPage/ItemOptionsPage";
+import { landingPageReducer } from "./store/landingPageState/reducers";
 
 const middlewares = [thunkMiddleware];
 const middleWareEnhancer = applyMiddleware(...middlewares);
@@ -43,7 +44,7 @@ const askNotification = async () => {
 
 askNotification().catch(err => console.warn("Error giving permission"));
 
-const rootReducer = persistCombineReducers(config, {editItemState: editItemReducer, itemsState: itemsReducer});
+const rootReducer = persistCombineReducers(config, {editItemState: editItemReducer, itemsState: itemsReducer, landingPageState: landingPageReducer});
 
 const store = createStore(rootReducer, composeWithDevTools(middleWareEnhancer));
 persistStore(

@@ -2,14 +2,13 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   itemListContainer: {
-    marginBottom: 20
+    flex: 1,
+    marginBottom: 20,
   },
   itemListItem: {
     flex: 1,
     flexDirection: "column",
     margin: 1,
-    marginTop: 5,
-    marginBottom: 5
   },
   friendContainer: {
     justifyContent: "center",

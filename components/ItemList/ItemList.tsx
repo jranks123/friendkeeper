@@ -1,19 +1,24 @@
 import React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import { FlatList } from 'react-native';
 import { connect } from "react-redux";
 import {
     populateEditItemStateFromFromItem
 } from "../../store/editItems/actions";
+import { deleteItem } from "../../store/items/actions";
 import { Item } from "../../store/items/types";
+import { setIsSwiping } from "../../store/landingPageState/actions";
 import { CombinedState } from "../../store/types";
 import { calculateDaysOverdue } from "../../utils/date";
-import ItemListElement from "../ItemListElement/ItemListElement";
+import ItemSwipable from "../ItemSwipable";
 import { styles } from './styles';
 
 export interface ItemListProps {
     items: Item[];
     navigation: any,
-    populateEditItemStateFromFromItem: (item: Item) => void
+    populateEditItemStateFromFromItem: (item: Item) => void,
+    deleteItem?: (id: number) => void,
+    setIsSwiping: (isSwiping: boolean) => void,
+    isSwiping: boolean,
 }
 
 const sortItems = (items: Item[]): Item[] => {
@@ -32,22 +37,32 @@ const sortItems = (items: Item[]): Item[] => {
 
 
 const ItemList = (props: ItemListProps) => {
+
+
     return (
     <FlatList
+        scrollEnabled={!props.isSwiping}
         style={styles.itemListContainer}
         data={sortItems(props.items)}
         renderItem={({item}) => {
-            const daysOverdue: number = calculateDaysOverdue(item.dateOfLastAction, item.maximumDaysBetweenActions);
             const navigateToItemOptionsPage = () => {
                 props.populateEditItemStateFromFromItem(item);
                 props.navigation.navigate('Options')
             };
 
-            const itemListElementProps = {item, daysOverdue};
+            const navigateToEditItemOptionsPage = () => {
+                props.populateEditItemStateFromFromItem(item);
+                props.navigation.navigate('Edit Friend')
+            };
             return (
-                <TouchableOpacity style={styles.itemListItem} onPress={() => navigateToItemOptionsPage()}>
-                    <ItemListElement {...itemListElementProps}/>
-                </TouchableOpacity>
+                <ItemSwipable
+                    item={item}
+                    deleteItem={props.deleteItem}
+                    setIsSwiping={props.setIsSwiping}
+                    navigateToItemOptionsPage={navigateToItemOptionsPage}
+                    navigateToEditItemOptionsPage={navigateToEditItemOptionsPage}
+                />
+
             )
         }}
         // Setting the number of column
@@ -56,11 +71,15 @@ const ItemList = (props: ItemListProps) => {
     />)};
 
 
-const mapStateToProps = (state: CombinedState) => ({});
+const mapStateToProps = (state: CombinedState) => ({
+    isSwiping: state.landingPageState.isSwiping
+});
 
 
 const mapDispatchToProps = (dispatch) =>  ({
     populateEditItemStateFromFromItem: (item: Item) => dispatch(populateEditItemStateFromFromItem(item)),
+    deleteItem: (id: number) => dispatch(deleteItem(id)),
+    setIsSwiping: (isSwiping: boolean) => dispatch(setIsSwiping(isSwiping))
 });
 
 

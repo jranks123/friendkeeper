@@ -5,7 +5,7 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Input } from 'react-native-elements'
 import NumericInput from 'react-native-numeric-input'
 import { connect } from "react-redux";
-import DatePicker from '../../components/ItemListElement/DatePicker/DatePicker';
+import DatePicker from '../../components/DatePicker/DatePicker';
 import {
     updateDateOfLastAction,
     updateMaximumDaysBetweenActions,
