@@ -11,10 +11,10 @@ export const styles = StyleSheet.create({
     width: 10
   },
   redBackground: {
-    backgroundColor: "red"
+    backgroundColor: "#d14161"
   },
   greenBackground: {
-    backgroundColor: "green"
+    backgroundColor: "#70EB7B"
   },
   friendInfo: {
     flex: 24,
