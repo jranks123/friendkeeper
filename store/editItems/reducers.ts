@@ -14,7 +14,7 @@ const initialState: EditItemState = {
       id: null,
       name: "",
       dateOfLastAction: new Date().getTime(),
-      maximumDaysBetweenActions: 7,
+      maximumDaysBetweenActions: 30,
       currentNotificationId: null
   }
 };

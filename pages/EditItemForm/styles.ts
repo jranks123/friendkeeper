@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     color: "grey",
-    marginLeft: 10
+    textAlign: 'center',
   },
   numericInput: {
     marginTop: 10,
