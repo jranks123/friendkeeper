@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#d14161"
   },
   greenBackground: {
-    backgroundColor: "#70EB7B"
+    backgroundColor: "#51AE62"
   },
   friendInfo: {
     flex: 24,

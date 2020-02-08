@@ -41,7 +41,7 @@ const ItemList = (props: ItemListProps) => {
 
     return (
     <FlatList
-        scrollEnabled={!props.isSwiping}
+        scrollEnabled={false}
         style={styles.itemListContainer}
         data={sortItems(props.items)}
         renderItem={({item}) => {
