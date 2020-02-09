@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -25,15 +25,6 @@ const config = {
     storage: AsyncStorage,
 };
 
-export const Navigator =   createStackNavigator({
-    FriendKeeper: ItemListPage,
-    Options: ItemOptionsPage,
-    'Add New Friend':  EditItemForm,
-    'Edit Friend':  EditItemForm,
-});
-
-
-const AppContainer = createAppContainer(Navigator);
 
 const askNotification = async () => {
     // We need to ask for Notification permissions for ios devices
@@ -55,13 +46,34 @@ persistStore(
     }
 );
 
-
-export default class App extends Component {
-    render() {
-        return (
-            <Provider store={store}>
-                <AppContainer />
-            </Provider>
-        );
-    }
+export default function App() {
+    const Stack = createStackNavigator();
+    return (
+        <Provider store={store}>
+            <NavigationContainer>
+                <Stack.Navigator
+                    initialRouteName="Friend Keeper"
+                    screenOptions={{ gestureEnabled: false }}
+                >
+                    <Stack.Screen
+                        name="Friend Keeper"
+                        component={ItemListPage}
+                    />
+                    <Stack.Screen
+                        name="Options"
+                        component={ItemOptionsPage}
+                    />
+                    <Stack.Screen
+                        name="Add New Friend"
+                        component={EditItemForm}
+                    />
+                    <Stack.Screen
+                        name="Edit Friend"
+                        component={EditItemForm}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </Provider>
+    );
 }
+

@@ -61,7 +61,6 @@ const EditItemForm = (props: EditItemFormProps) => {
 
     const setUpNotification = (): Promise<string> => {
         return cancelNotification(props.editItemState.currentNotificationId).then(_ => {
-            console.log("Dismissed notification");
             return setNotification();
         }).catch(err => {
             console.log(err + ". The notiication has probably already been shown.");

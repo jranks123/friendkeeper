@@ -46,8 +46,6 @@ const ItemListPage = (props: Props) => {
         navigation: props.navigation
     };
 
-    console.log("refreshing page");
-
     return (
             <View style={styles.pageContainer}>
                 <ScrollView
