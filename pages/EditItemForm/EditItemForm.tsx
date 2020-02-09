@@ -18,6 +18,7 @@ import { globalStyles } from "../../styles";
 import { calculateDaysOverdue } from "../../utils/date";
 import { getNewIdNumber } from "../../utils/storage";
 import { styles } from './styles';
+import { useNavigation } from "@react-navigation/native";
 
 export interface EditItemFormProps {
     items: Item[];
@@ -28,7 +29,6 @@ export interface EditItemFormProps {
     clearEditItemState: () => void,
     editItem: (item: Item) => void,
     updateCurrentNotificationId: (id: string) => void,
-    navigation: any,
     addItem: (item: Item) => void
 }
 
@@ -86,7 +86,7 @@ const EditItemForm = (props: EditItemFormProps) => {
             } else {
                 props.editItem(item);
             }
-            props.navigation.navigate('FriendKeeper');
+            useNavigation().navigate('FriendKeeper');
         });
 
     }

@@ -11,10 +11,10 @@ import { CombinedState } from "../../store/types";
 import { calculateDaysOverdue } from "../../utils/date";
 import ItemSwipable from "../ItemSwipable";
 import { styles } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 export interface ItemListProps {
     items: Item[];
-    navigation: any,
     populateEditItemStateFromFromItem: (item: Item) => void,
     deleteItem?: (id: number) => void,
     setIsSwiping: (isSwiping: boolean) => void,
@@ -38,6 +38,7 @@ const sortItems = (items: Item[]): Item[] => {
 
 const ItemList = (props: ItemListProps) => {
 
+    const navigation = useNavigation();
 
     return (
     <FlatList
@@ -47,12 +48,12 @@ const ItemList = (props: ItemListProps) => {
         renderItem={({item}) => {
             const navigateToItemOptionsPage = () => {
                 props.populateEditItemStateFromFromItem(item);
-                props.navigation.navigate('Options')
+                navigation.navigate('Options')
             };
 
             const navigateToEditItemOptionsPage = () => {
                 props.populateEditItemStateFromFromItem(item);
-                props.navigation.navigate('Edit Friend')
+                navigation.navigate('Edit Friend')
             };
             return (
                 <ItemSwipable
@@ -72,6 +73,7 @@ const ItemList = (props: ItemListProps) => {
 
 
 const mapStateToProps = (state: CombinedState) => ({
+    items: state.itemsState.items,
     isSwiping: state.landingPageState.isSwiping
 });
 

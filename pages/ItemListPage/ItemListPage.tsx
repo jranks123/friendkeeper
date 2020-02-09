@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import ItemsList, { ItemListProps } from "../../components/ItemList/ItemList";
 import { globalStyles } from '../../styles';
 import { styles } from './styles';
-
+import { useNavigation } from '@react-navigation/native';
 import { clearEditItemStateAction } from "../../store/editItems/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
@@ -18,10 +18,8 @@ interface Props {
     items: Item[],
     deleteAllItems: () => void,
     clearEditItemState: () => void,
-    navigation: any,
     isSwiping: boolean
 }
-
 
 const ItemListComponent = (itemListProps: ItemListProps) => {
     return itemListProps.items.length > 0 ? (<View>
@@ -40,26 +38,20 @@ const NoItemsCopy = (items: Item[]) => {
 };
 
 const ItemListPage = (props: Props) => {
-
-    const itemListProps: ItemListProps = {
-        items: props.items,
-        navigation: props.navigation
-    };
-
     return (
             <View style={styles.pageContainer}>
                 <ScrollView
                     scrollEnabled={!props.isSwiping}
                 >
                     {NoItemsCopy(props.items)}
-                    {ItemListComponent(itemListProps)}
+                    <ItemsList />
                 </ScrollView>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         style={globalStyles.button}
                         onPress={() => {
                             props.clearEditItemState();
-                            props.navigation.navigate('Add New Friend')
+                            useNavigation().navigate('Add New Friend')
                         }}
                     >
                         <Text style={globalStyles.buttonText}> Add Friend </Text>

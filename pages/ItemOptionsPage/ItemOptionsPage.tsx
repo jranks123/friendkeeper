@@ -11,6 +11,7 @@ import { deleteItem, editItem } from "../../store/items/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
 import { globalStyles } from "../../styles";
+import { useNavigation } from '@react-navigation/native';
 
 
 interface ItemOptionsPageProps {
@@ -24,7 +25,6 @@ interface ItemOptionsPageProps {
     clearEditItemState: () => void,
     editItem: (item: Item) => void,
     deleteItem: (id: number) => void,
-    navigation: any,
 }
 
 const ItemOptionsPage = (props: ItemOptionsPageProps) => {
@@ -36,13 +36,13 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
             maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
             currentNotificationId: props.editItemState.currentNotificationId,
         };
-
+        const navigation = useNavigation();
         return (
                 <View style={globalStyles.buttonContainer}>
                     <TouchableOpacity
                         onPress={() => {
                             props.editItem({...itemFromState, dateOfLastAction: new Date().getTime()});
-                            props.navigation.goBack();
+                            navigation.goBack();
                         }}
                         style={globalStyles.button}
                     >
@@ -52,7 +52,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
                     <TouchableOpacity
                         onPress={() => {
                             props.populateEditItemStateFromFromItem({...itemFromState});
-                            props.navigation.navigate('Edit Friend')}
+                            navigation.navigate('Edit Friend')}
                         }
                         style={globalStyles.button}
                     >
@@ -62,7 +62,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
                     <TouchableOpacity
                         onPress={() => {
                             props.deleteItem(props.editItemState.id);
-                            props.navigation.goBack();
+                            navigation.goBack();
                         }}
                         style={globalStyles.button}
                     >
