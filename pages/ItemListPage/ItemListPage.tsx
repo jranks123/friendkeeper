@@ -38,6 +38,7 @@ const NoItemsCopy = (items: Item[]) => {
 };
 
 const ItemListPage = (props: Props) => {
+    const { navigate } = useNavigation();
     return (
             <View style={styles.pageContainer}>
                 <ScrollView
@@ -51,7 +52,7 @@ const ItemListPage = (props: Props) => {
                         style={globalStyles.button}
                         onPress={() => {
                             props.clearEditItemState();
-                            useNavigation().navigate('Add New Friend')
+                            navigate('Add New Friend')
                         }}
                     >
                         <Text style={globalStyles.buttonText}> Add Friend </Text>

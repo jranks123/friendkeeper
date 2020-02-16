@@ -26,14 +26,17 @@ const config = {
 };
 
 
-const askNotification = async () => {
+const askNotification = async (permission) => {
     // We need to ask for Notification permissions for ios devices
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    const { status } = await Permissions.askAsync(permission);
     if (Constants.isDevice && status === 'granted')
         console.log('Notification permissions granted.');
 };
 
-askNotification().catch(err => console.warn("Error giving permission"));
+
+askNotification(Permissions.NOTIFICATIONS).catch(err => console.warn("Error giving notification permission"));
+askNotification(Permissions.CAMERA).catch(err => console.warn("Error giving camera permission"));
+askNotification(Permissions.CAMERA_ROLL).catch(err => console.warn("Error giving camera roll permission"));
 
 const rootReducer = persistCombineReducers(config, {editItemState: editItemReducer, itemsState: itemsReducer, landingPageState: landingPageReducer});
 

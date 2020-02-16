@@ -39,7 +39,7 @@ const localNotification: (Item) => LocalNotification =
         body: 'You haven\'t seen ' + item.name + ' in ' + item.maximumDaysBetweenActions.toString() + ' days! Give \'em a ring!'});
 
 const EditItemForm = (props: EditItemFormProps) => {
-
+    const { navigate } = useNavigation();
     const setNotification = (): Promise<string> => {
 
 
@@ -86,7 +86,7 @@ const EditItemForm = (props: EditItemFormProps) => {
             } else {
                 props.editItem(item);
             }
-            useNavigation().navigate('FriendKeeper');
+            navigate('Friend Keeper');
         });
 
     }
