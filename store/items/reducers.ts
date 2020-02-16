@@ -34,7 +34,9 @@ export function itemsReducer(
                   ...item,
                   name: action.item.name,
                   maximumDaysBetweenActions: action.item.maximumDaysBetweenActions,
-                  dateOfLastAction: action.item.dateOfLastAction, currentNotificationId: action.item.currentNotificationId
+                  dateOfLastAction: action.item.dateOfLastAction,
+                  currentNotificationId: action.item.currentNotificationId,
+                  image: action.item.image,
                 } : item)
       };
     case DELETE_ITEM:

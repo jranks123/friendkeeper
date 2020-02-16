@@ -1,13 +1,13 @@
 import { Notifications } from "expo";
 import { LocalNotification } from "expo/build/Notifications/Notifications.types";
 import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View, Button, Image, Alert} from 'react-native';
 import { Input } from 'react-native-elements'
 import NumericInput from 'react-native-numeric-input'
 import { connect } from "react-redux";
 import DatePicker from '../../components/DatePicker/DatePicker';
 import {
-    updateDateOfLastAction,
+    updateDateOfLastAction, updateImage,
     updateMaximumDaysBetweenActions,
     updateName
 } from "../../store/editItems/actions";
@@ -19,6 +19,11 @@ import { calculateDaysOverdue } from "../../utils/date";
 import { getNewIdNumber } from "../../utils/storage";
 import { styles } from './styles';
 import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+import {EvilIcons} from "@expo/vector-icons";
+import { Avatar } from 'react-native-elements';
 
 export interface EditItemFormProps {
     items: Item[];
@@ -29,7 +34,8 @@ export interface EditItemFormProps {
     clearEditItemState: () => void,
     editItem: (item: Item) => void,
     updateCurrentNotificationId: (id: string) => void,
-    addItem: (item: Item) => void
+    addItem: (item: Item) => void,
+    updateImage: (image: string) => void,
 }
 
 
@@ -75,6 +81,7 @@ const EditItemForm = (props: EditItemFormProps) => {
             dateOfLastAction: props.editItemState.dateOfLastAction,
             maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
             currentNotificationId,
+            image: props.editItemState.image
     });
 
     function onPress() {
@@ -88,14 +95,37 @@ const EditItemForm = (props: EditItemFormProps) => {
             }
             navigate('Friend Keeper');
         });
-
     }
+
+    const pickImage = async () => {
+        const result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
+        });
+
+        console.log(result);
+
+        if (result.cancelled === false) {
+            props.updateImage(result.uri);
+        }
+    };
 
     return (
         <View style={styles.formContainer}>
             <ScrollView
                 keyboardShouldPersistTaps = "always"
                 contentContainerStyle={globalStyles.mainContainer}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Avatar source={{ uri: props.editItemState.image }} size="large" rounded />
+                    <TouchableOpacity
+                        onPress={pickImage}
+                    >
+                        <EvilIcons name="pencil" size={34} color="#00BCD4"/>
+                    </TouchableOpacity>
+                </View>
+
                 <View style={styles.form}>
                     <Text style={styles.label} >
                         Name of friend
@@ -141,6 +171,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                         Submit
                     </Text>
                 </TouchableOpacity>
+
             </View>
         </View>
         );
@@ -159,6 +190,7 @@ const mapDispatchToProps = (dispatch: Function) =>  ({
     updateDateOfLastAction: (date: number) => dispatch(updateDateOfLastAction(date)),
     editItem: (item: Item) => dispatch(editItem(item)),
     addItem: (item: Item) => dispatch(addNewItem(item)),
+    updateImage: (image: string) => dispatch(updateImage(image))
 });
 
 

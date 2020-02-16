@@ -1,9 +1,10 @@
-import { Item } from "../items/types";
+import {Item, ItemsActions } from "../items/types";
 import {
   CLEAR_EDIT_ITEM_STATE,
   EditItemActions,
   POPULATE_EDIT_ITEM_STATE_FROM_ITEM, UPDATE_CURRENT_NOTIFICATION_ID,
   UPDATE_DATE_OF_LAST_ACTION,
+  UPDATE_IMAGE,
   UPDATE_MAXIMUM_DAYS_BETWEEN_ACTIONS,
   UPDATE_NAME
 } from "./types";
@@ -33,11 +34,12 @@ export function clearEditItemStateAction(): EditItemActions {
   };
 }
 
-export function updateCurrentNotificationId(id: string): EditItemActions {
+
+export function updateImage(image: string): EditItemActions {
   return {
-    type: UPDATE_CURRENT_NOTIFICATION_ID,
-    id
-  }
+    type: UPDATE_IMAGE,
+    image
+  };
 }
 
 export function populateEditItemStateFromFromItem(item: Item): EditItemActions {

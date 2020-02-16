@@ -5,6 +5,7 @@ import {
   POPULATE_EDIT_ITEM_STATE_FROM_ITEM,
   UPDATE_CURRENT_NOTIFICATION_ID,
   UPDATE_DATE_OF_LAST_ACTION,
+  UPDATE_IMAGE,
   UPDATE_MAXIMUM_DAYS_BETWEEN_ACTIONS,
   UPDATE_NAME
 } from "./types";
@@ -15,7 +16,8 @@ const initialState: EditItemState = {
       name: "",
       dateOfLastAction: new Date().getTime(),
       maximumDaysBetweenActions: 30,
-      currentNotificationId: null
+      currentNotificationId: null,
+      image: "",
   }
 };
 
@@ -30,6 +32,14 @@ export function editItemReducer(
         item: {
           ...state.item,
           name: action.name
+        }
+      };
+    case UPDATE_IMAGE:
+      return {
+        ...state,
+        item: {
+          ...state.item,
+          image: action.image
         }
       };
     case UPDATE_DATE_OF_LAST_ACTION:
@@ -67,7 +77,8 @@ export function editItemReducer(
           name: action.item.name,
           dateOfLastAction: action.item.dateOfLastAction,
           maximumDaysBetweenActions: action.item.maximumDaysBetweenActions,
-          currentNotificationId: action.item.currentNotificationId
+          currentNotificationId: action.item.currentNotificationId,
+          image: action.item.image,
         }
       };
     case CLEAR_EDIT_ITEM_STATE:

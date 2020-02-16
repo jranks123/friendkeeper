@@ -35,6 +35,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
             dateOfLastAction: props.editItemState.dateOfLastAction,
             maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
             currentNotificationId: props.editItemState.currentNotificationId,
+            image: props.editItemState.image,
         };
         const navigation = useNavigation();
         return (

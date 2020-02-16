@@ -6,6 +6,7 @@ export interface Item {
   dateOfLastAction: number | null;
   maximumDaysBetweenActions: number | null;
   currentNotificationId: string | null;
+  image: string | null;
 }
 
 export interface ItemsState {

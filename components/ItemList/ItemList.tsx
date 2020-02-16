@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import {Alert, FlatList} from 'react-native';
 import { connect } from "react-redux";
 import {
     populateEditItemStateFromFromItem

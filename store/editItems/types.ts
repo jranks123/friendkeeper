@@ -16,6 +16,8 @@ export const UPDATE_CURRENT_NOTIFICATION_ID = "UPDATE_CURRENT_NOTIFICATION_ID";
 export const CLEAR_EDIT_ITEM_STATE = "CLEAR_EDIT_ITEM_STATE";
 export const POPULATE_EDIT_ITEM_STATE_FROM_ITEM =
   "POPULATE_EDIT_ITEM_STATE_FROM_ITEM";
+export const UPDATE_IMAGE = "UPDATE_IMAGE";
+
 
 interface UpdateNameAction {
   type: typeof UPDATE_NAME;
@@ -30,6 +32,11 @@ interface UpdateDateOfLastAction {
 interface UpdateMaximumDaysBetweenAction {
   type: typeof UPDATE_MAXIMUM_DAYS_BETWEEN_ACTIONS;
   days: number;
+}
+
+interface UpdateImageAction {
+  type: typeof UPDATE_IMAGE;
+  image: string;
 }
 
 interface ClearEditItemAction {
@@ -59,4 +66,5 @@ export type EditItemActions =
   | ClearEditItemAction
   | PopulateEditItemStateFromItemAction
     | DeleteItemAction
-    | UpdateCurrentNotificationIdAction;
+    | UpdateCurrentNotificationIdAction
+    | UpdateImageAction;

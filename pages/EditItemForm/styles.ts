@@ -28,8 +28,8 @@ export const styles = StyleSheet.create({
     marginBottom: 40
   },
   bottom: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 36
+    color: 'white',
+    fontSize: 16,
+    paddingBottom: 10
   }
 });

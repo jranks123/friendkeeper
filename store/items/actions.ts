@@ -1,11 +1,4 @@
-import {
-  ADD_NEW_ITEM,
-  DELETE_ALL_ITEMS,
-  DELETE_ITEM,
-  EDIT_ITEM,
-  Item,
-  ItemsActions,
-} from "./types";
+import { ADD_NEW_ITEM, DELETE_ALL_ITEMS, DELETE_ITEM, EDIT_ITEM, Item, ItemsActions } from "./types";
 
 
 export function editItem(item: Item): ItemsActions {
@@ -20,6 +13,7 @@ export function addNewItem(item: Item): ItemsActions {
     item
   };
 }
+
 export function deleteItem(itemId: number): ItemsActions {
   return {
     type: DELETE_ITEM,
