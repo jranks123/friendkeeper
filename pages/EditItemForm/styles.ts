@@ -31,5 +31,11 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     paddingBottom: 10
-  }
+  },
+  editPhotoText:
+      {
+        color:"#00BCD4",
+        marginBottom: 10,
+        marginTop: 5
+      }
 });

@@ -5,6 +5,7 @@ import { EvilIcons } from '@expo/vector-icons';
 import { Item } from "../../store/items/types";
 import { globalStyles } from '../../styles';
 import { styles } from './styles';
+import {Avatar} from "react-native-elements";
 
 export interface Props {
     item: Item
@@ -17,6 +18,9 @@ const ItemListElement = (props: Props) => {
     return (<View style={styles.friendContainer}>
         <View style={[styles.statusBar, colorStyle]}>
             <Text></Text>
+        </View>
+        <View style={{marginLeft:10, flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
+            <Avatar source={{ uri: props.item.image }} size="medium" rounded />
         </View>
         <View style={styles.friendInfo}>
             <Text style={styles.friendName}>{props.item.name}</Text>

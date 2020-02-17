@@ -122,7 +122,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                     <TouchableOpacity
                         onPress={pickImage}
                     >
-                        <EvilIcons name="pencil" size={34} color="#00BCD4"/>
+                        <Text style={styles.editPhotoText}> Edit </Text>
                     </TouchableOpacity>
                 </View>
 

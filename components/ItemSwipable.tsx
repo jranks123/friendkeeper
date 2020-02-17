@@ -68,7 +68,7 @@ class ItemSwipable extends React.Component<FriendSwipableProps> {
             <Swipeable
                 rightButtons={this._rightButtons}
                 rightButtonWidth={65}
-                style={{marginTop: 5, marginButton: 5}}
+                style={{marginTop: 5, marginBottom: 5}}
                 onSwipeStart={() => this.props.setIsSwiping(true)}
                 onSwipeRelease={() => this.props.setIsSwiping(false)}
                 onRef={ref => this.swipeable = ref}

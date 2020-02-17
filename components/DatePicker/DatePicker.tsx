@@ -1,5 +1,5 @@
 import React from 'react';
-import DatePicker from 'react-native-datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { connect } from "react-redux";
 import {
     updateDateOfLastAction
@@ -14,29 +14,18 @@ export interface Props {
 }
 
 const ItemListElement = (props: Props) => {
-    return ( <DatePicker
+    return ( <DateTimePicker
+        testID="dateTimePicker"
+        timeZoneOffsetInMinutes={0}
+        value={new Date(props.editItemState.dateOfLastAction)}
+        display="calendar"
+        maximumDate={new Date()}
         style={styles.datePicker}
         date={new Date(props.editItemState.dateOfLastAction)} // initial date from state
         mode="date" // The enum of date, datetime and time
-        placeholder="select date"
-        format="YYYY-MM-DD"
-        minDate="1991-01-01"
-        maxDate={"2091-01-01"}
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        customStyles={{
-            dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-            },
-            dateInput: {
-
-            }
-        }}
-        onDateChange={(dateString: string) => {
-            props.updateDateOfLastAction(new Date(dateString).getTime())
+        onChange={(event, selectedDate) => {
+            props.updateDateOfLastAction(new Date(selectedDate).getTime())
+           // setShow(Platform.OS === 'ios' ? true : false);
         }}
     />)
 };
