@@ -94,7 +94,7 @@ const EditItemForm = (props: EditItemFormProps) => {
         });
     }
 
-    async function uploadImageAsync(uri) {
+    async function uploadImageAsync(uri: string) {
         let apiUrl = 'https://friendkeeper-269718.appspot.com/upload';
 
 
@@ -102,11 +102,11 @@ const EditItemForm = (props: EditItemFormProps) => {
         const fileType = uriParts[uriParts.length - 1];
 
         const formData = new FormData();
-        formData.append('photo', {
+        formData.append('photo', JSON.stringify({
             uri,
             name: `photo.${fileType}`,
             type: `image/${fileType}`,
-        });
+        }));
 
         const options = {
             method: 'POST',
@@ -137,7 +137,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                 uploadResponse = await uploadImageAsync(result.uri);
                 uploadResult = await uploadResponse.json();
                 alert(uploadResult);
-                //props.updateImage(uploadResult.location);
+                props.updateImage(uploadResult.location);
             } catch (e) {
                 console.log({ uploadResponse });
                 console.log({ uploadResult });
