@@ -1,7 +1,7 @@
 import express from 'express';
 import * as path from 'path';
 import * as bodyParser from 'body-parser';
-import * as  multer from 'multer';
+import multer from 'multer';
 import MulterGoogleCloudStorage from 'multer-google-storage';
 
 
@@ -34,7 +34,7 @@ app.post('/submit', (req, res) => {
     res.send('Thanks for your message!');
 });
 
-app.post('/upload', (req, res) => {
+app.post('/upload2', (req, res) => {
 
     console.log(process.env.GCS_BUCKET)
     console.log({
@@ -46,11 +46,12 @@ app.post('/upload', (req, res) => {
 
 //Initialize multers3 with our s3 config and other options
 const upload = multer({
-    storage: new MulterGoogleCloudStorage({bucket: process.env.GCS_BUCKET})
-})();
+    storage: new MulterGoogleCloudStorage()
+});
+
 
 // Process the file upload and upload to Google Cloud Storage.
 app.post('/upload', upload.single('photo'), (req, res, next) => {
-    console.log(req.files);
+    console.log(res);
     res.json(req.files);
 });
