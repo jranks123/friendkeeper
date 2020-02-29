@@ -95,18 +95,20 @@ const EditItemForm = (props: EditItemFormProps) => {
     }
 
     async function uploadImageAsync(uri: string) {
-        let apiUrl = 'https://friendkeeper-269718.appspot.com/upload';
+        let apiUrl = 'http://b6bb7e12.ngrok.io/upload';
 
 
         const uriParts = uri.split('.');
         const fileType = uriParts[uriParts.length - 1];
 
         const formData = new FormData();
-        formData.append('photo', JSON.stringify({
+        formData.append('photo', {
             uri,
             name: `photo.${fileType}`,
             type: `image/${fileType}`,
-        }));
+        });
+
+        console.log(formData);
 
         const options = {
             method: 'POST',
@@ -136,8 +138,9 @@ const EditItemForm = (props: EditItemFormProps) => {
             try {
                 uploadResponse = await uploadImageAsync(result.uri);
                 uploadResult = await uploadResponse.json();
-                alert(uploadResult);
-                props.updateImage(uploadResult.location);
+                alert(uploadResult.toString());
+                alert(uploadResult.path);
+                props.updateImage(uploadResult.path);
             } catch (e) {
                 console.log({ uploadResponse });
                 console.log({ uploadResult });

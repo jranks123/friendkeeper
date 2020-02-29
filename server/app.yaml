@@ -1,6 +1,5 @@
-runtime: nodejs10
+runtime: nodejs
 env: flex
 
 env_variables:
   GCS_BUCKET: friendkeeper
-  GCLOUD_PROJECT: friendkeeper-269718

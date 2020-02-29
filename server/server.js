@@ -52,6 +52,6 @@ const upload = multer({
 
 // Process the file upload and upload to Google Cloud Storage.
 app.post('/upload', upload.single('photo'), (req, res, next) => {
-    console.log(res);
-    res.json(req.files);
+    console.log(req.file)
+    res.json(req.file);
 });
