@@ -1,7 +1,7 @@
-import { Notifications } from "expo";
+import { Constants, Notifications } from "expo";
 import { LocalNotification } from "expo/build/Notifications/Notifications.types";
 import React from 'react';
-import {ScrollView, Text, TouchableOpacity, View, Button, Image, Alert} from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Input } from 'react-native-elements'
 import NumericInput from 'react-native-numeric-input'
 import { connect } from "react-redux";
@@ -20,9 +20,6 @@ import { getNewIdNumber } from "../../utils/storage";
 import { styles } from './styles';
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
-import {EvilIcons} from "@expo/vector-icons";
 import { Avatar } from 'react-native-elements';
 
 export interface EditItemFormProps {
@@ -97,6 +94,32 @@ const EditItemForm = (props: EditItemFormProps) => {
         });
     }
 
+    async function uploadImageAsync(uri) {
+        let apiUrl = 'https://friendkeeper-269718.appspot.com/upload';
+
+
+        const uriParts = uri.split('.');
+        const fileType = uriParts[uriParts.length - 1];
+
+        const formData = new FormData();
+        formData.append('photo', {
+            uri,
+            name: `photo.${fileType}`,
+            type: `image/${fileType}`,
+        });
+
+        const options = {
+            method: 'POST',
+            body: formData,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
+        return fetch(apiUrl, options);
+    }
+
     const pickImage = async () => {
         const result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -107,8 +130,20 @@ const EditItemForm = (props: EditItemFormProps) => {
 
         console.log(result);
 
+        let uploadResponse, uploadResult;
         if (result.cancelled === false) {
             props.updateImage(result.uri);
+            try {
+                uploadResponse = await uploadImageAsync(result.uri);
+                uploadResult = await uploadResponse.json();
+                alert(uploadResult);
+                //props.updateImage(uploadResult.location);
+            } catch (e) {
+                console.log({ uploadResponse });
+                console.log({ uploadResult });
+                console.log({ e });
+                alert('Upload failed, sorry :(');
+            }
         }
     };
 
