@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { EvilIcons } from '@expo/vector-icons';
+import { Avatar } from "react-native-elements";
 import { Item } from "../../store/items/types";
 import { globalStyles } from '../../styles';
 import { styles } from './styles';
-import {Avatar} from "react-native-elements";
 
 export interface Props {
     item: Item

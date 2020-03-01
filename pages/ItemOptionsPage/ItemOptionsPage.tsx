@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { connect } from "react-redux";
@@ -11,13 +12,13 @@ import { deleteItem, editItem } from "../../store/items/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
 import { globalStyles } from "../../styles";
-import { useNavigation } from '@react-navigation/native';
+import { setNotification } from "../../utils/notifications";
 
 
 interface ItemOptionsPageProps {
     navigateToAddItemForm: () => void,
     items: Item[];
-    editItemState: Item;
+    editItemStateItem: Item;
     updateName: (name: string) => void;
     updateMaximumDaysBetweenActions: (days: number) => void;
     updateDateOfLastAction: (date: number) => void;
@@ -30,19 +31,21 @@ interface ItemOptionsPageProps {
 const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
         const itemFromState: Item = {
-            id: props.editItemState.id,
-            name: props.editItemState.name,
-            dateOfLastAction: props.editItemState.dateOfLastAction,
-            maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
-            currentNotificationId: props.editItemState.currentNotificationId,
-            image: props.editItemState.image,
+            id: props.editItemStateItem.id,
+            name: props.editItemStateItem.name,
+            dateOfLastAction: props.editItemStateItem.dateOfLastAction,
+            maximumDaysBetweenActions: props.editItemStateItem.maximumDaysBetweenActions,
+            currentNotificationId: props.editItemStateItem.currentNotificationId,
+            image: props.editItemStateItem.image,
         };
         const navigation = useNavigation();
         return (
                 <View style={globalStyles.buttonContainer}>
                     <TouchableOpacity
                         onPress={() => {
-                            props.editItem({...itemFromState, dateOfLastAction: new Date().getTime()});
+                            const updatedItem = {...itemFromState, dateOfLastAction: new Date().getTime()};
+                            props.editItem(updatedItem);
+                            setNotification(updatedItem).then(res => console.log(`set notification ${res}`));
                             navigation.goBack();
                         }}
                         style={globalStyles.button}
@@ -62,7 +65,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
                     <TouchableOpacity
                         onPress={() => {
-                            props.deleteItem(props.editItemState.id);
+                            props.deleteItem(props.editItemStateItem.id);
                             navigation.goBack();
                         }}
                         style={globalStyles.button}
@@ -75,7 +78,7 @@ const ItemOptionsPage = (props: ItemOptionsPageProps) => {
 
 const mapStateToProps = (state: CombinedState) => ({
         items: state.itemsState.items,
-        editItemState: state.editItemState.item,
+        editItemStateItem: state.editItemState.item,
     });
 
 

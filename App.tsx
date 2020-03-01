@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
-import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from "@react-navigation/stack";
+import React from 'react';
+import { AsyncStorage } from 'react-native';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from "redux-devtools-extension";

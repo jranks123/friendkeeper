@@ -1,8 +1,8 @@
-import { Constants, Notifications } from "expo";
-import { LocalNotification } from "expo/build/Notifications/Notifications.types";
+import { useNavigation } from "@react-navigation/native";
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Input } from 'react-native-elements'
+import { Avatar } from 'react-native-elements';
 import NumericInput from 'react-native-numeric-input'
 import { connect } from "react-redux";
 import DatePicker from '../../components/DatePicker/DatePicker';
@@ -15,16 +15,14 @@ import { addNewItem, editItem } from "../../store/items/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
 import { globalStyles } from "../../styles";
-import { calculateDaysOverdue } from "../../utils/date";
+import { pickImage } from "../../utils/imageStorage";
+import { setUpNotification } from "../../utils/notifications";
 import { getNewIdNumber } from "../../utils/storage";
 import { styles } from './styles';
-import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from 'expo-image-picker';
-import { Avatar } from 'react-native-elements';
 
 export interface EditItemFormProps {
     items: Item[];
-    editItemState: Item,
+    editItemStateItem: Item,
     updateName: (name: string) => void;
     updateMaximumDaysBetweenActions: (days: number) => void;
     updateDateOfLastAction: (date: number) => void;
@@ -36,53 +34,22 @@ export interface EditItemFormProps {
 }
 
 
-const localNotification: (Item) => LocalNotification =
-    (item: Item) =>  ({
-        title: 'Don\'t forget about ' + item.name + '!',
-        body: 'You haven\'t seen ' + item.name + ' in ' + item.maximumDaysBetweenActions.toString() + ' days! Give \'em a ring!'});
-
 const EditItemForm = (props: EditItemFormProps) => {
     const { navigate } = useNavigation();
-    const setNotification = (): Promise<string> => {
 
-
-        const daysTilShow = Math.abs(calculateDaysOverdue(props.editItemState.dateOfLastAction, props.editItemState.maximumDaysBetweenActions));
-        const time = new Date(new Date().getTime() + (daysTilShow * 60 * 60 * 24 * 1000));
-        const schedulingOptions = { time };
-
-        return Notifications.scheduleLocalNotificationAsync(
-            localNotification(props.editItemState),
-            schedulingOptions,
-        ).then(id => {
-            return id.toString()
-        });
-    };
-
-    const cancelNotification = (id: string | null): Promise<void> => {
-        return id ? Notifications.cancelScheduledNotificationAsync(id) : Promise.resolve()
-    };
-
-    const setUpNotification = (): Promise<string> => {
-        return cancelNotification(props.editItemState.currentNotificationId).then(_ => {
-            return setNotification();
-        }).catch(err => {
-            console.log(err + ". The notiication has probably already been shown.");
-            return setNotification();
-        });
-    };
 
     const readItemFromEditItemState = (currentNotificationId: string): Item => ({
         // if it is null then this is a new item
-        id: props.editItemState.id || getNewIdNumber(props.items),
-            name: props.editItemState.name,
-            dateOfLastAction: props.editItemState.dateOfLastAction,
-            maximumDaysBetweenActions: props.editItemState.maximumDaysBetweenActions,
+        id: props.editItemStateItem.id || getNewIdNumber(props.items),
+            name: props.editItemStateItem.name,
+            dateOfLastAction: props.editItemStateItem.dateOfLastAction,
+            maximumDaysBetweenActions: props.editItemStateItem.maximumDaysBetweenActions,
             currentNotificationId,
-            image: props.editItemState.image
+            image: props.editItemStateItem.image
     });
 
     function onPress() {
-        setUpNotification().then( currentNotificationId => {
+        setUpNotification(props.editItemStateItem).then( currentNotificationId => {
             const item: Item = readItemFromEditItemState(currentNotificationId);
             const index = props.items.findIndex(e => e.id === item.id);
             if (index === -1) {
@@ -94,61 +61,7 @@ const EditItemForm = (props: EditItemFormProps) => {
         });
     }
 
-    async function uploadImageAsync(uri: string) {
-        let apiUrl = 'http://b6bb7e12.ngrok.io/upload';
 
-
-        const uriParts = uri.split('.');
-        const fileType = uriParts[uriParts.length - 1];
-
-        const formData = new FormData();
-        formData.append('photo', {
-            uri,
-            name: `photo.${fileType}`,
-            type: `image/${fileType}`,
-        });
-
-        console.log(formData);
-
-        const options = {
-            method: 'POST',
-            body: formData,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'multipart/form-data',
-            },
-        };
-
-        return fetch(apiUrl, options);
-    }
-
-    const pickImage = async () => {
-        const result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1
-        });
-
-        console.log(result);
-
-        let uploadResponse, uploadResult;
-        if (result.cancelled === false) {
-            props.updateImage(result.uri);
-            try {
-                uploadResponse = await uploadImageAsync(result.uri);
-                uploadResult = await uploadResponse.json();
-                alert(uploadResult.toString());
-                alert(uploadResult.path);
-                props.updateImage(uploadResult.path);
-            } catch (e) {
-                console.log({ uploadResponse });
-                console.log({ uploadResult });
-                console.log({ e });
-                alert('Upload failed, sorry :(');
-            }
-        }
-    };
 
     return (
         <View style={styles.formContainer}>
@@ -156,9 +69,9 @@ const EditItemForm = (props: EditItemFormProps) => {
                 keyboardShouldPersistTaps = "always"
                 contentContainerStyle={globalStyles.mainContainer}>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Avatar source={{ uri: props.editItemState.image }} size="large" rounded />
+                    <Avatar source={{ uri: props.editItemStateItem.image }} size="large" rounded />
                     <TouchableOpacity
-                        onPress={pickImage}
+                        onPress={(_) => pickImage(props.updateImage)}
                     >
                         <Text style={styles.editPhotoText}> Edit </Text>
                     </TouchableOpacity>
@@ -172,7 +85,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                         containerStyle={styles.input}
                         // @ts-ignore
                         textAlign={'center'}
-                        value={props.editItemState.name}
+                        value={props.editItemStateItem.name}
                         onChangeText={props.updateName}
                     />
 
@@ -181,7 +94,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                     </Text>
                     <View style={styles.numericInput}>
                         <NumericInput
-                            value={props.editItemState.maximumDaysBetweenActions}
+                            value={props.editItemStateItem.maximumDaysBetweenActions}
                             onChange={props.updateMaximumDaysBetweenActions}
                             totalWidth={180}
                             totalHeight={50}
@@ -215,10 +128,12 @@ const EditItemForm = (props: EditItemFormProps) => {
         );
     };
 
-const mapStateToProps = (state: CombinedState) => ({
+const mapStateToProps = (state: CombinedState) => {
+    console.log(state);
+    return ({
         items: state.itemsState.items,
-        editItemState: state.editItemState.item,
-    });
+        editItemStateItem: state.editItemState.item,
+    })};
 
 
 // tslint:disable-next-line:ban-types
