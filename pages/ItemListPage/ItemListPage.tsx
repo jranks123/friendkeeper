@@ -1,14 +1,14 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { YellowBox } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import ItemsList, { ItemListProps } from "../../components/ItemList/ItemList";
-import { globalStyles } from '../../styles';
-import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
 import { clearEditItemStateAction } from "../../store/editItems/actions";
 import { Item } from "../../store/items/types";
 import { CombinedState } from "../../store/types";
+import { globalStyles } from '../../styles';
+import { styles } from './styles';
 
 YellowBox.ignoreWarnings([
     'VirtualizedLists should never be nested', // TODO: Remove when fixed

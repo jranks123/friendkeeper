@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {Alert, FlatList} from 'react-native';
+import { FlatList } from 'react-native';
 import { connect } from "react-redux";
 import {
     populateEditItemStateFromFromItem
@@ -11,7 +12,6 @@ import { CombinedState } from "../../store/types";
 import { calculateDaysOverdue } from "../../utils/date";
 import ItemSwipable from "../ItemSwipable";
 import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
 
 export interface ItemListProps {
     items: Item[];
