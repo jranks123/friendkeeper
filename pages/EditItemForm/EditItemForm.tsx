@@ -129,7 +129,6 @@ const EditItemForm = (props: EditItemFormProps) => {
     };
 
 const mapStateToProps = (state: CombinedState) => {
-    console.log(state);
     return ({
         items: state.itemsState.items,
         editItemStateItem: state.editItemState.item,

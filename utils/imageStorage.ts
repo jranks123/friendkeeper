@@ -2,7 +2,7 @@ import * as ImagePicker from "expo-image-picker";
 
 
 export async function uploadImageAsync(uri: string) {
-  const apiUrl = 'http://4707ae37.ngrok.io/upload';
+  const apiUrl = 'https://friendkeeper-269718.appspot.com/upload';
 
 
   const uriParts = uri.split('.');
@@ -12,7 +12,7 @@ export async function uploadImageAsync(uri: string) {
   formData.append('photo', {
     // @ts-ignore
     uri,
-    name: `photo.${fileType}`,
+    name: `${Math.random().toString(13).replace('0.', '') }.${fileType}`,
     type: `image/${fileType}`,
   });
 
@@ -38,7 +38,6 @@ export const pickImage = async (updateImage: (image: string) => void) => {
 
   let uploadResponse, uploadResult;
   if (result.cancelled === false) {
-    updateImage(result.uri);
     try {
       uploadResponse = await uploadImageAsync(result.uri);
       uploadResult = await uploadResponse.json();
