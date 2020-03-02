@@ -1,4 +1,4 @@
-import { IS_SWIPING, LandingPageActions, LandingPageState } from "./types";
+import { IS_SWIPING, LandingPageActions, LandingPageState, UPLOADING_IMAGE } from "./types";
 
 const initialState: LandingPageState = {
   isSwiping: false
@@ -13,6 +13,11 @@ export function landingPageReducer(
       return {
         ...state,
         isSwiping: action.isSwiping
+      };
+    case UPLOADING_IMAGE:
+      return {
+        ...state,
+        uploadingImage: action.uploadingImage
       };
     default:
       return state;

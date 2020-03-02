@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Input } from 'react-native-elements'
 import { Avatar } from 'react-native-elements';
 import NumericInput from 'react-native-numeric-input'
@@ -19,6 +19,7 @@ import { pickImage } from "../../utils/imageStorage";
 import { setUpNotification } from "../../utils/notifications";
 import { getNewIdNumber } from "../../utils/storage";
 import { styles } from './styles';
+import { setUploadingImage } from "../../store/landingPageState/actions";
 
 export interface EditItemFormProps {
     items: Item[];
@@ -31,6 +32,8 @@ export interface EditItemFormProps {
     updateCurrentNotificationId: (id: string) => void,
     addItem: (item: Item) => void,
     updateImage: (image: string) => void,
+    uploadingImage: boolean,
+    setUploadingImage: (uploadingImage: boolean) => void,
 }
 
 
@@ -61,6 +64,17 @@ const EditItemForm = (props: EditItemFormProps) => {
         });
     }
 
+    const maybeRenderUploadingOverlay = () => {
+        if (props.uploadingImage) {
+            return (
+                <View
+                    style={[StyleSheet.absoluteFill, styles.maybeRenderUploading]}>
+                    <ActivityIndicator color="#fff" size="large" />
+                </View>
+            );
+        }
+    };
+
 
 
     return (
@@ -71,7 +85,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Avatar source={{ uri: props.editItemStateItem.image }} size="large" rounded />
                     <TouchableOpacity
-                        onPress={(_) => pickImage(props.updateImage)}
+                        onPress={(_) => pickImage(props.updateImage, props.setUploadingImage)}
                     >
                         <Text style={styles.editPhotoText}> Edit </Text>
                     </TouchableOpacity>
@@ -124,6 +138,7 @@ const EditItemForm = (props: EditItemFormProps) => {
                 </TouchableOpacity>
 
             </View>
+            {maybeRenderUploadingOverlay()}
         </View>
         );
     };
@@ -132,6 +147,7 @@ const mapStateToProps = (state: CombinedState) => {
     return ({
         items: state.itemsState.items,
         editItemStateItem: state.editItemState.item,
+        uploadingImage: state.landingPageState.uploadingImage
     })};
 
 
@@ -142,7 +158,8 @@ const mapDispatchToProps = (dispatch: Function) =>  ({
     updateDateOfLastAction: (date: number) => dispatch(updateDateOfLastAction(date)),
     editItem: (item: Item) => dispatch(editItem(item)),
     addItem: (item: Item) => dispatch(addNewItem(item)),
-    updateImage: (image: string) => dispatch(updateImage(image))
+    updateImage: (image: string) => dispatch(updateImage(image)),
+    setUploadingImage: (uploadingImage: boolean) => dispatch(setUploadingImage(uploadingImage))
 });
 
 

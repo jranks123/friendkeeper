@@ -1,6 +1,4 @@
-import {
-  IS_SWIPING, LandingPageActions
-} from "./types";
+import { IS_SWIPING, LandingPageActions, UPLOADING_IMAGE } from "./types";
 
 
 export function setIsSwiping(isSwiping: boolean): LandingPageActions {
@@ -9,3 +7,11 @@ export function setIsSwiping(isSwiping: boolean): LandingPageActions {
     isSwiping
   };
 }
+
+export function setUploadingImage(uploadingImage: boolean): LandingPageActions {
+  return {
+    type: UPLOADING_IMAGE,
+    uploadingImage
+  };
+}
+

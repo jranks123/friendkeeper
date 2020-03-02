@@ -32,6 +32,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     paddingBottom: 10
   },
+  maybeRenderUploading: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+  },
   editPhotoText:
       {
         color:"#00BCD4",

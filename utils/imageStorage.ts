@@ -28,7 +28,7 @@ export async function uploadImageAsync(uri: string) {
   return fetch(apiUrl, options);
 }
 
-export const pickImage = async (updateImage: (image: string) => void) => {
+export const pickImage = async (updateImage: (image: string) => void, setUploadingImage: (uploadingImage: boolean) => void) => {
   const result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
     allowsEditing: true,
@@ -36,14 +36,18 @@ export const pickImage = async (updateImage: (image: string) => void) => {
     quality: 1
   });
 
+
   let uploadResponse, uploadResult;
-  if (result.cancelled === false) {
+  if (result.cancelled !== true) {
     try {
+      setUploadingImage(true);
       uploadResponse = await uploadImageAsync(result.uri);
       uploadResult = await uploadResponse.json();
+      setUploadingImage(false);
       console.log(`Image upload successful. Image stores at ${uploadResult.path}`)
       updateImage(uploadResult.path);
     } catch (e) {
+      setUploadingImage(false);
       console.log({ uploadResponse });
       console.log({ uploadResult });
       console.log({ e });
