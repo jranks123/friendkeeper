@@ -2,4 +2,4 @@ runtime: nodejs
 env: flex
 
 env_variables:
-  GCS_BUCKET: friendkeeper
+  GCLOUD_STORAGE_BUCKET: friendkeeper

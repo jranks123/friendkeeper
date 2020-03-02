@@ -1,4 +1,4 @@
 #!/bin/bash
-export GCS_BUCKET=friendkeeper
-export GCLOUD_PROJECT=friendkeeper-269718
-export GCS_KEYFILE=~/keys/Friendkeeper-5c940f7d0b93.json
+export GCLOUD_STORAGE_BUCKET=friendkeeper
+export GOOGLE_CLOUD_PROJECT=friendkeeper-269718
+export GOOGLE_APPLICATION_CREDENTIALS=~/keys/Friendkeeper-5c940f7d0b93.json
