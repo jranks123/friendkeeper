@@ -1,5 +1,4 @@
-runtime: nodejs
-env: flex
+runtime: nodejs10
 
 env_variables:
   GCLOUD_STORAGE_BUCKET: friendkeeper
